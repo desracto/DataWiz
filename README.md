@@ -20,22 +20,8 @@
 </ul>
 
 <h2>Getting Started</h2>
-<ol>
-  <li>Clone the repository.</li>
-  <li>Install the required dependencies using <code>npm install</code> and <code>pip install</code>.</li>
-  <li>Start the frontend and backend servers using <code>npm start</code> and <code>python manage.py runserver</code>, respectively.</li>
-  <li>Open DataWiz in your browser at <code>http://localhost:3000</code>.</li>
-</ol>
-
-<h2>Contributing</h2>
-<p>We welcome contributions from the community! Please fork the repository and create a pull request with your proposed changes.</p>
-
-<h2>License</h2>
-<p>This project is licensed under the <a href="link-to-license-file">MIT License</a>.</p>
 
 <h2>Contact</h2>
 <p>For any inquiries or support, please contact us at <a href="mailto:email@example.com">email@example.com</a>.</p>
 
 <hr>
-
-<p>Feel free to customize the content based on specific details and information about the DataWiz project. Additionally, make sure to replace the placeholders (e.g., <code>link-to-demo-gif</code>, <code>List of APIs used</code>, etc.) with the actual relevant links and details.</p>
