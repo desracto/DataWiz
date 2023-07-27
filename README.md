@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>DataWiz - SQL Learning and Quiz Platform</title>
-</head>
-<body>
-
 <h1>DataWiz - SQL Learning and Quiz Platform</h1>
 <p>DataWiz is a web application designed to cater to both learners and instructors of SQL. The platform provides an interactive and engaging learning experience through query animation and quiz creation functionalities.</p>
 
@@ -46,6 +39,3 @@
 <hr>
 
 <p>Feel free to customize the content based on specific details and information about the DataWiz project. Additionally, make sure to replace the placeholders (e.g., <code>link-to-demo-gif</code>, <code>List of APIs used</code>, etc.) with the actual relevant links and details.</p>
-
-</body>
-</html>
