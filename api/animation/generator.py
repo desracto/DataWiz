@@ -20,7 +20,7 @@ def generate_prefixed(id: int):
             db.session.delete(emp)
 
         # Add new data
-        with open("api\schemas\schema1.txt", 'r') as file:
+        with open("api\\animation\\schemas\\schema1.txt", 'r') as file:
             for line in file:
                 line = line.split(',')
                 emp = Employee(employee_ID=line[0], 
