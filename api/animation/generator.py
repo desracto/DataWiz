@@ -4,6 +4,7 @@
 """
 
 from api import db
+import re
 
 def generate_prefixed(id: int):
     """
@@ -31,5 +32,48 @@ def generate_prefixed(id: int):
                             employee_Salary=int(line[5])
                             )
                 db.session.add(emp)
-                db.session.commit()
+        db.session.commit()
 
+    elif id == 2 or id == 5:
+        from api.models import Schema2_Products as Products, Schema2_Inventory as Inventory
+        
+        # Products table
+        # Clear existing data
+        prods = Products.query.all()
+        for p in prods:
+            db.session.delete(p)
+
+        with open("api\\animation\\schemas\\schema2.txt", "r") as file:
+            for line in file:
+                if line.find('PRODUCTS') != -1:
+                    line = line.strip()
+                    line = re.split(',|:', line)
+
+                    prod = Products(products_ID=int(line[1]),
+                                    products_Name=line[2],
+                                    products_Category=line[3],
+                                    products_Price=int(line[4])
+                                    )
+                    db.session.add(prod)
+
+        db.session.commit()
+        
+        # Inventory table
+        # Clear existing data
+        invs = Inventory.query.all()
+        for inv in invs:
+            db.session.delete(inv)
+
+        with open("api\\animation\\schemas\\schema2.txt", "r") as file:
+            for line in file:
+                if line.find('INVENTORY') != -1:
+                    line = line.strip()
+                    line = re.split(',|:', line)
+
+                    inv = Inventory(products_ProductID=int(line[1]),
+                                    inventory_Quantity=int(line[2])
+                                    )
+                    db.session.add(inv)
+        
+        db.session.commit()
+        

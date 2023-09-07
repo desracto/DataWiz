@@ -47,8 +47,10 @@ class Schema2_Inventory(db.Model, Object):
     __tablename__ = "Inventory"
 
     # Field Names
-    inventory_ID = db.Column(db.Integer, primary_key=True)
+    inventory_ID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     inventory_Quantity = db.Column(db.Integer)
     products_ProductID = db.Column(db.Integer, db.ForeignKey('Products.products_ID'))
 
+    def __repr__(self):
+        return "<Schema 2: Inventory(ID: {})>".format(self.inventory_ID)
 
