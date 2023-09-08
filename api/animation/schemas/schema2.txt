@@ -18,7 +18,6 @@ PRODUCTS:117,Microwave,Appliances,200
 PRODUCTS:118,Smart Speaker,Electronics,120
 PRODUCTS:119,Fitness Tracker,Electronics,70
 PRODUCTS:120,Wallet,Accessories,35
-
 INVENTORY:101,50
 INVENTORY:102,80
 INVENTORY:103,100
