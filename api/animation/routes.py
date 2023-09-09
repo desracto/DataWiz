@@ -6,6 +6,7 @@ from api.models import Schema1_Employee as Employee
 from api.models import Schema2_Product as Product, Schema2_Inventory as Inventory
 from api.models import Schema3_Course as Course, Schema3_Enrollment as Enrollment
 from api.models import Schema4_Flight as Flight, Schema4_Passenger as Passenger, Schema4_Ticket as Ticket
+from api.models import Schema5_Album as Album, Schema5_Artist as Artist, Schema5_Genre as Genre, Schema5_Song as Song
 
 @animation_bp.route('/animation/fetch_schema/<int:schema_id>')
 def fetch_schema(schema_id):
@@ -94,7 +95,39 @@ def fetch_schema(schema_id):
             'passenger': passengers_json,
             'ticket': tickets_json
         }
+    
+    elif schema_id == 5:
+        albums = Album.query.all()
+        genres = Genre.query.all()
+        songs = Song.query.all()
+        artists = Artist.query.all()
+
+        if len(albums) == 0 or len(genres) == 0 or len(songs) == 0 or len(artists) == 0:
+            generate_prefixed(5)
         
+        albums_json = []
+        for album in albums:
+            albums_json.append(album.as_dict())
+        
+        genres_json = []
+        for genre in genres:
+            genres_json.append(genre.as_dict())
+        
+        songs_json = []
+        for song in songs:
+            songs_json.append(song.as_dict())
+        
+        artists_json = []
+        for artist in artists:
+            artists_json.append(artist.as_dict())
+
+        results = {
+            'album': albums_json,
+            'genre': genres_json,
+            'song': songs_json,
+            'artist': artists_json
+        }
+
     else:
         return 404
 

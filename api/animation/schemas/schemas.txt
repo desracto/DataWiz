@@ -189,3 +189,81 @@ TICKET,3019,1018,2019,S19,290
 TICKET,3020,1019,2020,T20,370.75	
 
 # Schema 5 Tables
+
+ALBUM,101,Greatest Hits,1995,201	
+ALBUM,102,Rock Anthems,2002,202	
+ALBUM,103,Pop Sensations,2010,203	
+ALBUM,104,Classic Jazz,1998,204	
+ALBUM,105,Country Roads,2005,205	
+ALBUM,106,R&B Grooves,2012,206	
+ALBUM,107,Indie Classics,2008,207	
+ALBUM,108,Hip Hop Hits,2015,208	
+ALBUM,109,Electronic Vibes,2006,209	
+ALBUM,110,Blues Legends,1997,210	
+ALBUM,111,Reggae Roots,2011,211	
+ALBUM,112,Classical Masterpieces,2000,212	
+ALBUM,113,Alternative Rewind,2009,213	
+ALBUM,114,Metal Mayhem,2014,214	
+ALBUM,115,Latin Salsa,2003,215	
+ALBUM,116,Funky Grooves,2007,216	
+ALBUM,117,Bollywood Beats,2013,217	
+ALBUM,118,Soulful Sounds,1999,218	
+ALBUM,119,Ambient Dreams,2016,219	
+ALBUM,120,Gospel Favorites,2004,220	
+
+ARTIST,201,Queen,United Kingdom,301	
+ARTIST,202,The Rolling Stones,United Kingdom,301	
+ARTIST,203,Taylor Swift,United States,302	
+ARTIST,204,Miles Davis,United States,303	
+ARTIST,205,Johnny Cash,United States,304	
+ARTIST,206,Beyoncé,United States,302	
+ARTIST,207,Arctic Monkeys,United Kingdom,305	
+ARTIST,208,Eminem,United States,306	
+ARTIST,209,Daft Punk,France,307	
+ARTIST,210,B.B. King,United States,304	
+ARTIST,211,Bob Marley,Jamaica,308	
+ARTIST,212,Ludwig van Beethoven,Germany,309	
+ARTIST,213,Nirvana,United States,305	
+ARTIST,214,Metallica,United States,306	
+ARTIST,215,Celia Cruz,Cuba,310	
+ARTIST,216,James Brown,United States,311	
+ARTIST,217,A.R. Rahman,India,312	
+ARTIST,218,Aretha Franklin,United States,313	
+ARTIST,219,Brian Eno,United Kingdom,307	
+ARTIST,220,Mahalia Jackson,United States,314	
+
+SONG,1001,Bohemian Rhapsody,101	
+SONG,1002,Paint It Black,102	
+SONG,1003,Shake It Off,103	
+SONG,1004,So What,104	
+SONG,1005,Ring of Fire,105	
+SONG,1006,Love On Top,106	
+SONG,1007,Do I Wanna Know?,107	
+SONG,1008,Lose Yourself,108	
+SONG,1009,Around the World,109	
+SONG,1010,The Thrill Is Gone,110	
+SONG,1011,One Love,111	
+SONG,1012,Moonlight Sonata,112	
+SONG,1013,Smells Like Teen Spirit,113	
+SONG,1014,Enter Sandman,114	
+SONG,1015,Suavemente,115	
+SONG,1016,Get Up (I Feel Like A),116	
+SONG,1017,Chaiyya Chaiyya,117	
+SONG,1018,Respect,118	
+SONG,1019,Ambient Bliss,119	
+SONG,1020,Amazing Grace,120	
+
+GENRE,301,Rock	
+GENRE,302,Pop	
+GENRE,303,Jazz	
+GENRE,304,Country	
+GENRE,305,Indie	
+GENRE,306,Hip Hop	
+GENRE,307,Electronic	
+GENRE,308,Reggae	
+GENRE,309,Classical	
+GENRE,310,Salsa	
+GENRE,311,Funk	
+GENRE,312,Bollywood	
+GENRE,313,Soul	
+GENRE,314,Gospel	

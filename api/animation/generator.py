@@ -30,6 +30,9 @@ def retrieve_schema(id: int):
     result = {}
     with open("api\\animation\\schemas\\schemas.txt", "r") as file:
         for line in file:
+            if line.find('#') == 0:
+                continue
+
             if any(x in line for x in table_names):
                 line = line.strip()
                 line = re.split(',', line)
@@ -125,7 +128,6 @@ def generate_prefixed(id: int):
             db.session.add(obj)
 
         # Ticket Table
-        obj = Ticket()
         for arr in result['TICKET']:
             obj = Ticket(ticket_ID = int(arr[0]),
                             ticket_FlightID = int(arr[1]),
@@ -136,4 +138,40 @@ def generate_prefixed(id: int):
         db.session.commit()
 
     elif id == 5:
-        None
+        from api.models import Schema5_Album as Album, \
+                               Schema5_Artist as Artist, \
+                               Schema5_Genre as Genre, \
+                               Schema5_Song as Song
+        
+        # Album Table
+        for arr in result['ALBUM']:
+            obj = Album(album_ID = int(arr[0]),
+                        album_Name = arr[1],
+                        album_ReleaseYear = int(arr[2]),
+                        album_ArtistID = int(arr[3]))
+            db.session.add(obj)
+
+        # Genre
+        for arr in result['GENRE']:
+            obj = Genre(genre_ID = int(arr[0]),
+                        genre_Name = arr[1])
+
+            db.session.add(obj)
+
+        # Artist
+        for arr in result['ARTIST']:
+            obj = Artist(artist_ID = int(arr[0]),
+                         artist_Name = arr[1],
+                         artist_Country = arr[2],
+                         artist_GenreID = int(arr[3]))
+            
+            db.session.add(obj)
+
+        # Song
+        for arr in result['SONG']:
+            obj = Song(song_ID = int(arr[0]),
+                       song_Title = arr[1],
+                       song_AlbumID = int(arr[2]))
+
+            db.session.add(obj)
+        db.session.commit()        

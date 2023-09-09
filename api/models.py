@@ -149,3 +149,69 @@ class Schema4_Ticket(db.Model, Object):
     def __repr__(self):
         return "<Schema 4: Ticket(ID: {})>".format(self.ticket_ID)
     
+class Schema5_Album(db.Model, Object):
+    # Table name
+    __tablename__ = 'Album'
+
+    # Fields
+    album_ID = db.Column(db.Integer, primary_key=True)
+    album_Name = db.Column(db.String(150))
+    album_ReleaseYear = db.Column(db.Integer)
+    album_ArtistID = db.Column(db.Integer, db.ForeignKey('Artist.artist_ID'))
+
+    # Function
+    song = db.relationship('Schema5_Song', back_populates='album')
+    artist = db.relationship('Schema5_Artist', back_populates='album')
+
+    # Function
+    def __repr__(self):
+        return "<Schema 5: Album(ID: {})>".format(self.album_ID)
+    
+class Schema5_Genre(db.Model, Object):
+    # Table name
+    __tablename__ = 'Genre'
+
+    # Fields
+    genre_ID = db.Column(db.Integer, primary_key=True)
+    genre_Name = db.Column(db.String(30))
+
+    # Relationship
+    artist = db.relationship('Schema5_Artist', back_populates='genre')
+
+    # Function
+    def __repr__(self):
+        return "<Schema 5: Genre(ID: {})>".format(self.genre_ID)
+
+class Schema5_Song(db.Model, Object):
+    # Table name
+    __tablename__ = 'Song'
+
+    # Fields
+    song_ID = db.Column(db.Integer, primary_key=True)
+    song_Title = db.Column(db.String(150))
+    song_AlbumID = db.Column(db.Integer, db.ForeignKey('Album.album_ID'))
+    
+    # Relationships
+    album = db.relationship('Schema5_Album', back_populates='song')
+
+    # Function 
+    def __repr__(self):
+        return "<Schema 5: Song(ID: {})>".format(self.song_ID)
+
+class Schema5_Artist(db.Model, Object):
+    # Table name
+    __tablename__ = 'Artist'
+
+    # Fields
+    artist_ID = db.Column(db.Integer, primary_key=True)
+    artist_Name = db.Column(db.String(100))
+    artist_Country = db.Column(db.String(60))
+    artist_GenreID = db.Column(db.Integer, db.ForeignKey('Genre.genre_ID'))
+
+    # Relationship
+    genre = db.relationship('Schema5_Genre', back_populates='artist')
+    album = db.relationship('Schema5_Album', back_populates='artist')
+
+    # Function
+    def __repr__(self):
+        return "<Schema 5: Artist(ID: {})>".format(self.artist_ID)
