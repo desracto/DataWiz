@@ -3,72 +3,98 @@ from api.animation.generator import generate_prefixed
 from flask import jsonify
 
 from api.models import Schema1_Employee as Employee
-from api.models import Schema2_Products as Products, Schema2_Inventory as Inventory
-from api.models import Schema3_Courses as Courses, Schema3_CourseEnrollment as Course_Enrollment
+from api.models import Schema2_Product as Product, Schema2_Inventory as Inventory
+from api.models import Schema3_Course as Course, Schema3_Enrollment as Enrollment
+from api.models import Schema4_Flight as Flight, Schema4_Passenger as Passenger, Schema4_Ticket as Ticket
 
 @animation_bp.route('/animation/fetch_schema/<int:schema_id>')
 def fetch_schema(schema_id):
-
     results = {}
 
     if schema_id == 1:
+        employees = Employee.query.all()
+
         # Prefixed database not generated
-        if len(Employee.query.all()) == 0:
+        if len(employees) == 0:
             generate_prefixed(1)
         
-        employees = Employee.query.all()
-        emps_dict = []
+        emps_json = []
         for emp in employees:
-            emps_dict.append(emp.as_dict())
+            emps_json.append(emp.as_dict())
         
         results = {
-            "employees": emps_dict
+            "employees": emps_json
         }
         
     elif schema_id == 2:
+        products = Product.query.all()
+        invens = Inventory.query.all()
+
         # Prefixed database not generated
-        if len(Products.query.all()) == 0 or len(Inventory.query.all()) == 0:
+        if len(products) == 0 or len(invens) == 0:
             generate_prefixed(2)
 
-        products = Products.query.all()
-        prods_arr = []
+        prods_json = []
         for prod in products:
-            prods_arr.append(prod.as_dict())
+            prods_json.append(prod.as_dict())
         
-        invens = Inventory.query.all()
-        invens_arr = []
+        invens_json = []
         for inv in invens:
-            invens_arr.append(inv.as_dict())
+            invens_json.append(inv.as_dict())
 
         results = {
-            "products": prods_arr,
-            "inventory": invens_arr
+            "products": prods_json,
+            "inventory": invens_json
         }
 
     elif schema_id == 3:
+        course = Course.query.all()
+        enrollments = Enrollment.query.all()
+
         # Prefixed database not generated
-        if len(Courses.query.all()) == 0 or len(Course_Enrollment.query.all()) == 0:
+        if len(course) == 0 or len(enrollments) == 0:
             generate_prefixed(3)
 
-        courses = Courses.query.all()
-        enrollments = Course_Enrollment.query.all()
-
-        course_arr = []
-        for course in courses:
-            course_arr.append(course.as_dict())
+        course_json = []
+        for course in course:
+            course_json.append(course.as_dict())
         
-        enrolls_arr = []
+        enrolls_json = []
         for enroll in enrollments:
-            enrolls_arr.append(enroll.as_dict())
+            enrolls_json.append(enroll.as_dict())
 
         results = {
-            'courses': course_arr,
-            'enrollments': enrolls_arr
+            'course': course_json,
+            'enrollments': enrolls_json
         }
     
     elif schema_id == 4:
-        None
+        flights = Flight.query.all()
+        passengers = Passenger.query.all()
+        tickets = Ticket.query.all()
 
+        # Prefixed database not generated
+        if len(flights) == 0 or len(passengers) == 0 or len(tickets) == 0:
+            generate_prefixed(4)
+        
+        flights_json = []
+        for flight in flights:
+            flights_json.append(flight.as_dict())
+        
+        passengers_json = []
+        for passenger in passengers:
+            passengers_json.append(passenger.as_dict())
+        
+        tickets_json = []
+        for ticket in tickets:
+            tickets_json.append(ticket.as_dict())
+
+        results = {
+            'flight': flights_json,
+            'passenger': passengers_json,
+            'ticket': tickets_json
+        }
+        
     else:
         return 404
 
