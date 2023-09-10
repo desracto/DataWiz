@@ -2,11 +2,11 @@ from api.animation import animation_bp
 from api.animation.generator import generate_prefixed
 from flask import jsonify
 
-from api.models import Schema1_Employee as Employee
-from api.models import Schema2_Product as Product, Schema2_Inventory as Inventory
-from api.models import Schema3_Course as Course, Schema3_Enrollment as Enrollment
-from api.models import Schema4_Flight as Flight, Schema4_Passenger as Passenger, Schema4_Ticket as Ticket
-from api.models import Schema5_Album as Album, Schema5_Artist as Artist, Schema5_Genre as Genre, Schema5_Song as Song
+from api.animation._models import Schema1_Employee as Employee
+from api.animation._models import Schema2_Product as Product, Schema2_Inventory as Inventory
+from api.animation._models import Schema3_Course as Course, Schema3_Enrollment as Enrollment
+from api.animation._models import Schema4_Flight as Flight, Schema4_Passenger as Passenger, Schema4_Ticket as Ticket
+from api.animation._models import Schema5_Album as Album, Schema5_Artist as Artist, Schema5_Genre as Genre, Schema5_Song as Song
 
 @animation_bp.route('/animation/fetch_schema/<int:schema_id>')
 def fetch_schema(schema_id):
