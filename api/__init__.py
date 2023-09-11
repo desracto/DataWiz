@@ -10,7 +10,7 @@ def create_app(config_class=Config):
     app.config.from_object(Config)
 
     db.init_app(app)
-    migrate.init_app(app, db)
+    migrate.init_app(app, db, app.config["MIGRATION_DIR"])
     bcrypt.init_app(app)
     server_session.init_app(app)
 

@@ -8,12 +8,15 @@ load_dotenv()
 class Config(object):
     SECRET_KEY = 'secret-key-PLEASE-CHANGE-BEFORE-PROD'
 
+    # Flask-Migrate
+    MIGRATION_DIR = os.path.join(basedir, 'api\\migrations')
+
     # SQLAlchemy
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'main.db')
+        'sqlite:///' + os.path.join(basedir, 'api\\db_files\\main.db')
     
     SQLALCHEMY_BINDS = {
-        "prefixed": "sqlite:///" + os.path.join(basedir, "prefixed_sc.db")
+        "prefixed": "sqlite:///" + os.path.join(basedir, "api\\db_files\\prefixed_sc.db")
     }
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = False
