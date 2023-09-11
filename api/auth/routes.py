@@ -2,7 +2,7 @@ from api.auth import auth_bp
 
 from flask import request, jsonify, session
 
-from ..extensions import bcrypt, db, server_session
+from ..extensions import bcrypt, db
 from ..models import User
 
 @auth_bp.route("/@me")
