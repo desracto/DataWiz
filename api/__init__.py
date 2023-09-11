@@ -1,6 +1,6 @@
 from flask import Flask
 from config import Config
-from .extensions import db, migrate
+from .extensions import db, migrate, bcrypt, server_session
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -11,18 +11,16 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     migrate.init_app(app, db)
+    bcrypt.init_app(app)
+    server_session.init_app(app)
 
-    # Main
-    from api.main import main_bp
-    app.register_blueprint(main_bp)
+    # Auth Blueprint
+    from api.auth import auth_bp
+    app.register_blueprint(auth_bp, url_prefix="/auth/")
 
     # Animation Blueprint
     from api.animation import animation_bp 
-    app.register_blueprint(animation_bp)
-
-    # Quiz Blueprint
-    from api.quiz import quiz_bp
-    app.register_blueprint(quiz_bp)
+    app.register_blueprint(animation_bp, url_prefix="/animation/")
 
     return app
 

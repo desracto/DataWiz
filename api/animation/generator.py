@@ -3,20 +3,20 @@
 
 """
 
-from api import db
+from ..extensions import db
 import re
 from datetime import datetime
 
-from api.animation._models import Schema1_Employee as Employee
-from api.animation._models import Schema2_Product as Product, \
+from ._prefixed_models import Schema1_Employee as Employee
+from ._prefixed_models import Schema2_Product as Product, \
                                   Schema2_Inventory as Inventory
-from api.animation._models import Schema3_Course as Course, \
+from ._prefixed_models import Schema3_Course as Course, \
                                   Schema3_Enrollment as Enrollment
-from api.animation._models import Schema4_Flight as Flight, \
+from ._prefixed_models import Schema4_Flight as Flight, \
                                   Schema4_Passenger as Passenger, \
                                   Schema4_Ticket as Ticket 
 
-from api.animation._models import Schema5_Album as Album, \
+from ._prefixed_models import Schema5_Album as Album, \
                                   Schema5_Artist as Artist, \
                                   Schema5_Genre as Genre, \
                                   Schema5_Song as Song

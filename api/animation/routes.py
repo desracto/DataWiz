@@ -1,16 +1,16 @@
-from animation import animation_bp
+from api.animation import animation_bp
 from flask import jsonify
 
 
-from ._models import Schema1_Employee as Employee
-from ._models import Schema2_Product as Product, Schema2_Inventory as Inventory
-from ._models import Schema3_Course as Course, Schema3_Enrollment as Enrollment
-from ._models import Schema4_Flight as Flight, Schema4_Passenger as Passenger, Schema4_Ticket as Ticket
-from ._models import Schema5_Album as Album, Schema5_Artist as Artist, Schema5_Genre as Genre, Schema5_Song as Song
+from ._prefixed_models import Schema1_Employee as Employee
+from ._prefixed_models import Schema2_Product as Product, Schema2_Inventory as Inventory
+from ._prefixed_models import Schema3_Course as Course, Schema3_Enrollment as Enrollment
+from ._prefixed_models import Schema4_Flight as Flight, Schema4_Passenger as Passenger, Schema4_Ticket as Ticket
+from ._prefixed_models import Schema5_Album as Album, Schema5_Artist as Artist, Schema5_Genre as Genre, Schema5_Song as Song
 
 from .generator import generate_prefixed
 
-@animation_bp.route('/animation/fetch_schema/<int:schema_id>')
+@animation_bp.route('/fetch_schema/<int:schema_id>')
 def fetch_schema(schema_id):
     results = {}
 
