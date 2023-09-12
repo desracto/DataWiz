@@ -1,4 +1,4 @@
-from api.animation import animation_bp
+from app.blueprints.animation import animation_bp
 from flask import jsonify
 
 

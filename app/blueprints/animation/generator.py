@@ -3,7 +3,7 @@
 
 """
 
-from ..extensions import db
+from ...extensions import db
 import re
 from datetime import datetime
 
@@ -98,7 +98,7 @@ def retrieve_schema(id: int):
         table_names.append('GENRE')
 
     result = {}
-    with open("api\\animation\\schemas\\schemas.txt", "r") as file:
+    with open("app\\animation\\schemas.txt", "r") as file:
         for line in file:
             if line.find('#') == 0:
                 continue

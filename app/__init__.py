@@ -15,13 +15,13 @@ def create_app(config_class=Config):
     server_session.init_app(app)
 
     # Auth Blueprint
-    from api.auth import auth_bp
-    app.register_blueprint(auth_bp, url_prefix="/auth/")
+    from .blueprints.user import user_bp
+    app.register_blueprint(user_bp, url_prefix="/api/auth")
 
     # Animation Blueprint
-    from api.animation import animation_bp 
-    app.register_blueprint(animation_bp, url_prefix="/animation/")
+    from .blueprints.animation import animation_bp 
+    app.register_blueprint(animation_bp, url_prefix="/api/animation/")
 
     return app
 
-from api import models
+from app import models
