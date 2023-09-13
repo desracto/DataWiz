@@ -14,6 +14,7 @@ class User(db.Model):
 
     # Fields
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
+    username = db.Column(db.String(40))
     email = db.Column(db.String(345), unique=True)
     password_hash = db.Column(db.Text, nullable=False)
 
@@ -30,13 +31,14 @@ class User(db.Model):
     def to_dict(self):
         data = {
             "id": self.id,
-            "email": self.email    
+            "username": self.username,
+            "email": self.email  
         }
 
         return data
     
     def from_dict(self, data, new_user=False):
-        for field in ['email', 'password']:
+        for field in ['username', 'email', 'password']:
             if field in data:
                 setattr(self, field, data[field])
 

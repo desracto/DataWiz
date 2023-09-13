@@ -2,76 +2,15 @@ from ..user import user_bp
 from flask import request, jsonify, session, url_for
 
 from ..main.errors import bad_request, error_response
-from ...extensions import bcrypt, db
+from ...extensions import db
 from ...models import User
-
-@user_bp.route("/me")
-def get_current_user():
-    user_id = session.get("user_id")
-
-    if not user_id:
-        return jsonify({
-            "error": "Unauthorized"
-        }), 401
-    
-    user = User.query.filter_by(id=user_id).first()
-    return jsonify({
-        "id": user.id,
-        "email": user.email
-    })
-
-@user_bp.route("/register", methods=['POST'])
-def register_user():
-    email = request.json["email"]
-    password = request.json["password"]
-
-    user_exists = User.query.filter_by(email=email).first() is not None
-
-    if user_exists:
-        return jsonify({
-            "error": "User already exists"
-        }), 409
-
-    hashed_password = bcrypt.generate_password_hash(password)
-    new_user = User(email=email, password_hash=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
-
-    return jsonify({
-        "id": new_user.id,
-        "email": new_user.email
-    })
-
-@user_bp.route("/login", methods=["POST"])
-def login_user():
-    email = request.json["email"]
-    password = request.json["password"]
-
-    user = User.query.filter_by(email=email).first()
-
-    # User doesnt exist
-    if user is None:
-        return jsonify({
-            "error": "Unauthorized"
-        }), 401
-    
-    # Invalid password
-    if not bcrypt.check_password_hash(user.password_hash, password):
-        return jsonify({
-            "error": "Unauthorized"
-        }), 401
-    
-    session["user_id"] = user.id
-
-    return jsonify({
-        "id": user.id,
-        "email": user.email
-    })
 
 @user_bp.route('/users/<id>', methods=['GET'])
 def get_user(id):
     """
-        Returns requested user as JSON object 
+        Returns requested user as JSON object if user found or
+        returns 404 code if user doesn't exist. 
+        
     """
     return jsonify(User.query.get_or_404(id).to_dict())
 
@@ -80,7 +19,8 @@ def create_user():
     """
         create_user function recieves a JSON request following this format:
         {
-            "email" : "email@test.com",
+            "username": "username"
+            "email": "email@test.com",
             "password": "password"
         }
 
@@ -88,12 +28,13 @@ def create_user():
         If it passes through the error handling, new User object is created using the function User.from_dict().
 
         Returns URL to newly created user resource
+        Code: 201 (Created Sucess)
     """
     # Retrieve JSON body from request or set empty json 
     data = request.get_json() or {}
 
     # Checking if mandatory fields are present -> return error if not
-    if 'email' not in data or 'password' not in data:
+    if 'username' not in data or 'email' not in data or 'password' not in data:
         return bad_request('must include email and password')
     if User.query.filter_by(email=data['email']).first():
         return bad_request('please use a different email')
@@ -110,6 +51,41 @@ def create_user():
     
     # Set location to URL for new resource
     response.headers['Location'] = url_for('user.get_user', id=user.id)
-    
     return response
 
+@user_bp.route('/users/<id>', methods=['PUT'])
+def update_user(id):
+    """
+        update_user function recieves a response object following this format:
+        {
+            [OPTIONAL] "username": "username",
+            [OPTIONAL] "email": "email"
+        }
+
+        Error handling checks if the new username/email aren't the same as
+        current and arent already in use.
+
+        If passes error handling, the user's details are changed using User.from_dict().
+
+        Returns updated resource representation
+        Code: 200 (OK)
+    """
+    user:User = User.query.get_or_404(id)
+    data = request.get_json() or {}
+
+    # Checking if the new data already exists in the database
+    # but as each field is optional, first check if the fields 
+    # exist in response object & not same 
+    if 'username' in data and data['username'] != user.username and \
+            User.query.filter_by(username=data['username']).first():
+        return bad_request('please use a different username')
+    if 'email' in data and data['email'] != user.email and \
+            User.query.filter_by(email=data['email']).first():
+        return bad_request('please use a different email')
+
+    # change user data 
+    user.from_dict(data, new_user=False)
+    db.session.commit()
+
+    # return new user resource represnetation
+    return jsonify(user.to_dict())
