@@ -1,0 +1,72 @@
+/* FONTS 
+@font-face {
+  font-family: 'Gilroy-Bold';
+  src: url('/fonts/Gilroy-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gilroy-SemiBold';
+  src: url('/fonts/Gilroy-SemiBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+} */
+
+.SchemaSelectionTitle {
+  font-family: 'Gilroy-Bold', sans-serif;
+  /* Other styles for your title */
+}
+
+.SchemaSelectionText {
+  font-family: 'Gilroy-SemiBold', sans-serif;
+  /* Other styles for your text */
+}
+
+/* Container for both Header1 and SchemaSelectionCard */
+.SchemaSelectionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  height: 100vh;
+}
+
+.SchemaSelectionCard {
+    width: 80%;
+    height: 3000px;
+    background: white;
+    border-radius: 45px;
+    position: 'absolute';
+    top: '400px';
+    padding: 150px; /* Add padding as needed */
+    padding-left: 170px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow as needed */
+  }
+
+  /* Style for the SchemaSelectionTitle */
+.SchemaSelectionTitle {
+  color: 'white';
+  font-Size: 6rem;
+  font-Weight: 700;
+  font-family: 'Gilroy-Bold', sans-serif;
+  margin-bottom: 40px; /* Add margin as needed */
+}
+
+/* Style for the SchemaSelectionText */
+.SchemaSelectionText {
+  font-size: 3.5rem;
+  font-weight: 540;
+  font-family: 'Gilroy-SemiBold', sans-serif;
+  word-wrap: break-word;
+  margin-bottom: 90px; /* Add margin as needed */
+}
+
+/* Style for the coloredline */
+.colored-line {
+  background-image: linear-gradient(to right, #20002c, #cbb4d4);
+  margin: 20px auto;
+  height: 10px;
+  width: 97%;
+  border-radius: 9px;
+}
