@@ -16,7 +16,7 @@ class User(db.Model):
 
     # Fields
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
-    username = db.Column(db.String(40))
+    username = db.Column(db.String(40), unique=True)
     email = db.Column(db.String(345), unique=True)
     password_hash = db.Column(db.Text, nullable=False)
 
@@ -50,6 +50,8 @@ class User(db.Model):
 
         if new_user and 'password' in data:
             self.set_password(data['password'])
+
+        return self
 
     def get_token(self, expires_in=3600):
         """

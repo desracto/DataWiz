@@ -17,6 +17,10 @@ def create_app(config_class=Config):
     from .blueprints.user import user_bp
     app.register_blueprint(user_bp, url_prefix="/api/")
 
+    # Auth Blueprint
+    from .blueprints.auth import auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/api/auth/')
+
     # Animation Blueprint
     from .blueprints.animation import animation_bp 
     app.register_blueprint(animation_bp, url_prefix="/api/animation/")

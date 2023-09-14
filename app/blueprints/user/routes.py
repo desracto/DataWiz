@@ -1,7 +1,7 @@
 from ..user import user_bp
-from flask import request, jsonify, session, url_for
+from flask import request, jsonify, url_for
 
-from ..main.errors import bad_request, error_response
+from ..main.errors import bad_request
 from ...extensions import db
 from ...models import User
 
@@ -15,13 +15,13 @@ def get_user(id):
     return jsonify(User.query.get_or_404(id).to_dict())
 
 @user_bp.route('/users/', methods=['POST'])
-def create_user():
+def register_user():
     """
         create_user function recieves a JSON request following this format:
         {
-            "username": "username"
-            "email": "email@test.com",
-            "password": "password"
+            [REQUIRED] [UNIQUE] "username": "username"
+            [REQUIRED] [UNIQUE] "email": "email@test.com",
+            [REQUIRED]          "password": "password"
         }
 
         Error handling checks if the mandatory fields are present and if it already exists in the database. 
@@ -35,13 +35,14 @@ def create_user():
 
     # Checking if mandatory fields are present -> return error if not
     if 'username' not in data or 'email' not in data or 'password' not in data:
-        return bad_request('must include email and password')
+        return bad_request('must include username, email and password')
+    if User.query.filter_by(username=data['username']).first():
+        return bad_request('please use a different username')
     if User.query.filter_by(email=data['email']).first():
         return bad_request('please use a different email')
     
     # Create new user if above checks pass
-    user = User()
-    user.from_dict(data, new_user=True)
+    user:User = User().from_dict(data, new_user=True)
     db.session.add(user)
     db.session.commit()
 
@@ -89,3 +90,22 @@ def update_user(id):
 
     # return new user resource represnetation
     return jsonify(user.to_dict())
+
+@user_bp.route('/users/<id>', methods=['DELETE'])
+def delete_user(id):
+    """
+        delete_user fetches a user using their ID and 
+        deletes the resource from the database
+    """
+    user:User = User.query.get_or_404(id)
+    try:
+        db.session.delete(user)
+    except:
+        db.session.delete(user)
+    db.session.commit()
+
+    response = {
+        "message": "account has been successfully deleted" 
+    }
+
+    return response

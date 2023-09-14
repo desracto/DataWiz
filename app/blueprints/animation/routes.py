@@ -1,7 +1,6 @@
 from app.blueprints.animation import animation_bp
 from flask import jsonify
 
-
 from ._prefixed_models import Schema1_Employee as Employee
 from ._prefixed_models import Schema2_Product as Product, Schema2_Inventory as Inventory
 from ._prefixed_models import Schema3_Course as Course, Schema3_Enrollment as Enrollment
@@ -26,7 +25,7 @@ def schema1():
     return jsonify({
         "employees": emps_json
     })
-        
+
 @animation_bp.route('/schema/2')
 def schema2():
     products = Product.query.all()

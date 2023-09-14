@@ -21,3 +21,6 @@ from flask_session import Session
     present in config.py in the root directory
 """
 server_session = Session()
+
+from flask_httpauth import HTTPBasicAuth
+auth = HTTPBasicAuth()
