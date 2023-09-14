@@ -1,12 +1,13 @@
 import os
-import redis
+from datetime import timedelta
 from dotenv import load_dotenv
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 load_dotenv()
 
 class Config(object):
-    SECRET_KEY = 'secret-key-PLEASE-CHANGE-BEFORE-PROD'
+    SECRET_KEY = 'f@n_|^Is"6zHto-edhd@Q+}jtYpDm$<<'
+    DEBUG = True
 
     # Flask-Migrate
     MIGRATION_DIR = os.path.join(basedir, 'app\\database\\migrations')
@@ -21,8 +22,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = False
 
-    # Flask-Session
-    SESSION_TYPE = "redis"
-    SESSION_PERMANENT = False
-    SESSION_USE_SIGNER = True
-    SESSION_REDIS = redis.from_url("redis://127.0.0.1:6379")
+    # Flask-JWT-Extended
+    JWT_SECRET_KEY = 'sic-1/)to06#WV$~XB;u,JO=#%AmXV+b'
+    JWT_TOKEN_LOCATION = ["cookies"]
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)

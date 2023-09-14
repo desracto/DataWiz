@@ -1,5 +1,6 @@
 from app.blueprints.animation import animation_bp
-from flask import jsonify
+from flask import jsonify, request
+from flask_jwt_extended import jwt_required
 
 from ._prefixed_models import Schema1_Employee as Employee
 from ._prefixed_models import Schema2_Product as Product, Schema2_Inventory as Inventory
@@ -8,8 +9,10 @@ from ._prefixed_models import Schema4_Flight as Flight, Schema4_Passenger as Pas
 from ._prefixed_models import Schema5_Album as Album, Schema5_Artist as Artist, Schema5_Genre as Genre, Schema5_Song as Song
 
 from .generator import generate_prefixed
+from ..main.errors import bad_request
 
 @animation_bp.route('/schema/1')
+@jwt_required()
 def schema1():
     results = {}
     employees = Employee.query.all()
@@ -27,6 +30,7 @@ def schema1():
     })
 
 @animation_bp.route('/schema/2')
+@jwt_required()
 def schema2():
     products = Product.query.all()
     invens = Inventory.query.all()
@@ -51,6 +55,7 @@ def schema2():
     return jsonify(results=results)
 
 @animation_bp.route('/schema/3')
+@jwt_required()
 def schema3():
     course = Course.query.all()
     enrollments = Enrollment.query.all()
@@ -74,7 +79,8 @@ def schema3():
 
     return jsonify(results=results)
 
-@animation_bp.route('/schema/4') 
+@animation_bp.route('/schema/4')
+@jwt_required()
 def schema4():
     flights = Flight.query.all()
     passengers = Passenger.query.all()
@@ -105,6 +111,7 @@ def schema4():
     return jsonify(results=results)
 
 @animation_bp.route('/schema/5')
+@jwt_required()
 def schema5():
     albums = Album.query.all()
     genres = Genre.query.all()
@@ -138,3 +145,14 @@ def schema5():
     }
 
     return jsonify(results=results)
+
+@animation_bp.route('/query', methods=['POST'])
+@jwt_required()
+def get_query():
+    data = request.get_data() or {}
+
+    # Checking if query in request object
+    if 'query' not in data:
+        return bad_request('must include query')
+    
+    # Check if query is a DML

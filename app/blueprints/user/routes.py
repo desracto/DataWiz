@@ -1,19 +1,48 @@
 from ..user import user_bp
 from flask import request, jsonify, url_for
+from flask_jwt_extended import create_access_token, jwt_required, set_access_cookies, unset_jwt_cookies
 
-from ..main.errors import bad_request
+from ..main.errors import bad_request, error_response
 from ...extensions import db
 from ...models import User
 
-@user_bp.route('/users/<id>', methods=['GET'])
-def get_user(id):
+@user_bp.route('/users/login', methods=['POST'])
+def login():
     """
-        Returns requested user as JSON object if user found or
-        returns 404 code if user doesn't exist. 
-        
-    """
-    return jsonify(User.query.get_or_404(id).to_dict())
+        Retrieves a JSON object in the form:
+        {
+            [REQUIRED] "username": value,
+            [REQUIRED] "password": value
+        }
 
+        Error handling checks if the required fields are present and if the user exists.
+        If the user exists and password is correct, create a JWT Access Token and bind it to
+        the user's username.
+
+        After that, it modifies the response object to set the access token & CSRF token as cookies
+        and returns the response object to the user.
+
+        If the credentials are invalid, return 401 code for invalid credentials.
+    """
+    data = request.get_json() or {}
+
+    if 'username' not in data or 'password' not in data:
+        return bad_request('must include username and password')
+
+    try:
+        user:User = User.query.filter_by(username=data['username']).first()
+    except:
+        return error_response(500, 'internal server error')
+
+    if user and user.check_password(data['password']):
+        response = jsonify({"msg": "login successful"})
+        access_token = create_access_token(identity=data['username'])
+        
+        set_access_cookies(response, access_token)
+        return response
+    else:
+        return error_response(401, 'invalid credentials')
+    
 @user_bp.route('/users/', methods=['POST'])
 def register_user():
     """
@@ -54,8 +83,31 @@ def register_user():
     response.headers['Location'] = url_for('user.get_user', id=user.id)
     return response
 
-@user_bp.route('/users/<id>', methods=['PUT'])
-def update_user(id):
+@user_bp.route('/users/logout', methods=['POST'])
+@jwt_required()
+def logout():
+    """
+        logout function unsets the JWT tokens from the user's cookies, thus logging them out of the server
+
+        Need to redirect back to homepage on frontend side
+    """
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
+
+@user_bp.route('/users/<username>', methods=['GET'])
+@jwt_required()
+def get_user(username:str):
+    """
+        Returns requested user as JSON object if user found or
+        returns 404 code if user doesn't exist. 
+        
+    """
+    return jsonify(User.query.get_or_404(username).to_dict())
+
+@user_bp.route('/users/<username>', methods=['PUT'])
+@jwt_required()
+def update_user(username:str):
     """
         update_user function recieves a response object following this format:
         {
@@ -71,7 +123,7 @@ def update_user(id):
         Returns updated resource representation
         Code: 200 (OK)
     """
-    user:User = User.query.get_or_404(id)
+    user:User = User.query.get_or_404(username)
     data = request.get_json() or {}
 
     # Checking if the new data already exists in the database
@@ -91,13 +143,14 @@ def update_user(id):
     # return new user resource represnetation
     return jsonify(user.to_dict())
 
-@user_bp.route('/users/<id>', methods=['DELETE'])
-def delete_user(id):
+@user_bp.route('/users/<username>', methods=['DELETE'])
+@jwt_required()
+def delete_user(username:str):
     """
         delete_user fetches a user using their ID and 
         deletes the resource from the database
     """
-    user:User = User.query.get_or_404(id)
+    user:User = User.query.get_or_404(username)
     try:
         db.session.delete(user)
     except:
