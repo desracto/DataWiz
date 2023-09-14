@@ -1,6 +1,6 @@
 from flask import Flask
 from config import Config
-from .extensions import db, migrate, server_session
+from .extensions import db, migrate
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -11,7 +11,6 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     migrate.init_app(app, db, app.config["MIGRATION_DIR"])
-    server_session.init_app(app)
 
     # User Blueprint
     from .blueprints.user import user_bp
