@@ -1,7 +1,20 @@
 import Header1 from "../components/Header1";
 import "./SchemaSelectionPage.css";
 
+const URL = 'http://localhost:5000/api'
+
+const getSchemaData = (id) => {
+  const response = fetch(URL + "/animation/schema/" + id).then(response => response.json());
+
+  console.log(response)
+}
+
 export default function SchemaSelectionPage() {
+  
+  const onClickHandler = (id) => {
+    getSchemaData(id);
+  }
+  
   return (
     <>
       <Header1 />
@@ -13,11 +26,11 @@ export default function SchemaSelectionPage() {
                 </div>
                 <div className="colored-line" /> {/* Colored line */}
                 <div className="button-container">
-                    <button className="Schema1Button">SCHEMA 1</button>
-                    <button className="Schema2Button">SCHEMA 2</button>
-                    <button className="Schema3Button">SCHEMA 3</button>
-                    <button className="Schema4Button">SCHEMA 4</button>
-                    <button className="Schema5Button">SCHEMA 5</button>
+                    <button onClick={() => onClickHandler(1)} className="Schema1Button">SCHEMA 1</button>
+                    <button onClick={(event) => onClickHandler(event, 2)} className="Schema2Button">SCHEMA 2</button>
+                    <button onClick={(event) => onClickHandler(event, 3)} className="Schema3Button">SCHEMA 3</button>
+                    <button onClick={(event) => onClickHandler(event, 4)} className="Schema4Button">SCHEMA 4</button>
+                    <button onClick={(event) => onClickHandler(event, 5)} className="Schema5Button">SCHEMA 5</button>
                 </div>
                 <div className="SchemaDisplayCard">
                 </div>
