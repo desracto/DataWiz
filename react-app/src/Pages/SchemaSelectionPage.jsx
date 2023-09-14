@@ -13,7 +13,16 @@ export default function SchemaSelectionPage() {
             Begin your journey into the world of data manipulation and SQL query visualization by selecting from our five diverse range of pre-designed schemas.
           </div>
           <div className="colored-line" /> {/* Colored line */}
-          <button className="Schema1Button">Schema 1</button>
+          <div className="button-container">
+            <button className="Schema1Button">SCHEMA 1</button>
+            <button className="Schema2Button">SCHEMA 2</button>
+            <button className="Schema3Button">SCHEMA 3</button>
+            <button className="Schema4Button">SCHEMA 4</button>
+            <button className="Schema5Button">SCHEMA 5</button>
+        </div>
+        
+        <div className="SchemaDisplayCard">
+        </div>
         </div>
       </div>
     </>
