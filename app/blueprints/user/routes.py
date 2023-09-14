@@ -95,19 +95,19 @@ def logout():
     unset_jwt_cookies(response)
     return response
 
-@user_bp.route('/users/<username>', methods=['GET'])
+@user_bp.route('/users/<id>', methods=['GET'])
 @jwt_required()
-def get_user(username:str):
+def get_user(id:str):
     """
         Returns requested user as JSON object if user found or
         returns 404 code if user doesn't exist. 
         
     """
-    return jsonify(User.query.get_or_404(username).to_dict())
+    return jsonify(User.query.get_or_404(id).to_dict())
 
-@user_bp.route('/users/<username>', methods=['PUT'])
+@user_bp.route('/users/<id>', methods=['PUT'])
 @jwt_required()
-def update_user(username:str):
+def update_user(id:str):
     """
         update_user function recieves a response object following this format:
         {
@@ -123,7 +123,7 @@ def update_user(username:str):
         Returns updated resource representation
         Code: 200 (OK)
     """
-    user:User = User.query.get_or_404(username)
+    user:User = User.query.get_or_404(id)
     data = request.get_json() or {}
 
     # Checking if the new data already exists in the database
@@ -143,14 +143,14 @@ def update_user(username:str):
     # return new user resource represnetation
     return jsonify(user.to_dict())
 
-@user_bp.route('/users/<username>', methods=['DELETE'])
+@user_bp.route('/users/<id>', methods=['DELETE'])
 @jwt_required()
-def delete_user(username:str):
+def delete_user(id:str):
     """
         delete_user fetches a user using their ID and 
         deletes the resource from the database
     """
-    user:User = User.query.get_or_404(username)
+    user:User = User.query.get_or_404(id)
     try:
         db.session.delete(user)
     except:
