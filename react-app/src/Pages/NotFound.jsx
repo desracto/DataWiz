@@ -1,6 +1,6 @@
 import Header1 from "../components/Header1"
 
-export default function NoPage() 
+export default function NotFound() 
 {
     return (
         <>

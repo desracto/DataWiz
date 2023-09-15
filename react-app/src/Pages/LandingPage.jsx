@@ -1,5 +1,6 @@
 import Header1 from "../components/Header1"
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 
 export default function LandingPage() 
@@ -30,13 +31,13 @@ export default function LandingPage()
 
                     {/* Login/SignUp Buttons */}
                     <div style={{ display: 'flex', position: 'absolute', left: 'calc(30% + 500px)', marginTop: '17%' }}>
-                        <button className="LoginButton" style={{ width: 400, height: 180, background: '#8A5A8E', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Link to="/LogIn"><button className="LoginButton" style={{ width: 400, height: 180, background: '#8A5A8E', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <div className="Login" style={{ color: 'white', fontSize: '4rem', fontFamily: 'Poppins', fontWeight: 'bold', wordWrap: 'break-word' }}>Login</div>
-                        </button>
+                        </button></Link>
 
-                        <button className="SignUpButton" style={{ width: 400, height: 180, background: '#8A5A8E', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '5%' }}>
+                        <Link to="/SignUp"><button className="SignUpButton" style={{ width: 400, height: 180, background: '#8A5A8E', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: 10, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '5%' }}>
                         <div className="SignUp" style={{ color: 'white', fontSize: '4rem', fontFamily: 'Poppins', fontWeight: 'bold', wordWrap: 'break-word' }}>Sign Up</div>
-                        </button>
+                        </button></Link>
                     </div> {/* Login/SignUp Buttons */}
 
                     </div>
