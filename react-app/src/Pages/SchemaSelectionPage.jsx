@@ -1,18 +1,14 @@
 import Header1 from "../components/Header1";
 import "./SchemaSelectionPage.css";
-
-const URL = 'http://localhost:5000/api'
-
-const getSchemaData = (id) => {
-  const response = fetch(URL + "/animation/schema/" + id).then(response => response.json());
-
-  console.log(response)
-}
+import httpClient from "../httpClient";
+import {useState, useEffect} from 'react';
 
 export default function SchemaSelectionPage() {
-  
-  const onClickHandler = (id) => {
-    getSchemaData(id);
+
+  const onClickHandler = async (id) => {
+    const data = (await httpClient.get("http://localhost:5000/api/animation/schema/" + id)).data.results;
+
+    console.log(data)
   }
   
   return (
@@ -27,10 +23,10 @@ export default function SchemaSelectionPage() {
                 <div className="colored-line" /> {/* Colored line */}
                 <div className="button-container">
                     <button onClick={() => onClickHandler(1)} className="Schema1Button">SCHEMA 1</button>
-                    <button onClick={(event) => onClickHandler(event, 2)} className="Schema2Button">SCHEMA 2</button>
-                    <button onClick={(event) => onClickHandler(event, 3)} className="Schema3Button">SCHEMA 3</button>
-                    <button onClick={(event) => onClickHandler(event, 4)} className="Schema4Button">SCHEMA 4</button>
-                    <button onClick={(event) => onClickHandler(event, 5)} className="Schema5Button">SCHEMA 5</button>
+                    <button onClick={() => onClickHandler(2)} className="Schema2Button">SCHEMA 2</button>
+                    <button onClick={() => onClickHandler(3)} className="Schema3Button">SCHEMA 3</button>
+                    <button onClick={() => onClickHandler(4)} className="Schema4Button">SCHEMA 4</button>
+                    <button onClick={() => onClickHandler(5)} className="Schema5Button">SCHEMA 5</button>
                 </div>
                 <div className="SchemaDisplayCard">
                 </div>
