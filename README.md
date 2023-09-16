@@ -14,8 +14,7 @@
 <h2>Technologies Used</h2>
 <ul>
   <li>Frontend: React.js</li>
-  <li>Backend: Django</li>
-  <li>APIs: [List of APIs used]</li>
+  <li>Backend: Flask API</li>
   <li>Database: [Database name]</li>
 </ul>
 
