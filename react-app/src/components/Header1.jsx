@@ -2,7 +2,7 @@ export default function Header1()
 {
     return (
         <div className="flex">
-            <div className="Datawiz w-96 h-28" style={{ position: 'absolute', top: '55px', left: '111px' }}>
+            <div className="Datawiz w-96 h-28" style={{ position: 'absolute', top: '55px', left: '2px' }}>
                 <span style={{ color: 'white', fontSize: '10rem', fontWeight: 'bold' }}>Data</span>
                 <span style={{ color: 'white', fontSize: '10rem', fontWeight: 'normal' }}>Wiz.</span>
             </div>
