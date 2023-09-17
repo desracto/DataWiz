@@ -1,7 +1,16 @@
 import Header2 from "../components/Header2";
 import "./SchemaSelectionPage.css";
+import httpClient from "../httpClient";
+import {useState, useEffect} from 'react';
 
 export default function SchemaSelectionPage() {
+
+  const onClickHandler = async (id) => {
+    const data = (await httpClient.get("http://localhost:5000/api/animation/schema/" + id)).data.results;
+
+    console.log(data)
+  }
+  
   return (
     <>
       <Header2 />
@@ -13,11 +22,11 @@ export default function SchemaSelectionPage() {
                 </div>
                 <div className="colored-line" /> {/* Colored line */}
                 <div className="button-container">
-                    <button className="Schema1Button">SCHEMA 1</button>
-                    <button className="Schema2Button">SCHEMA 2</button>
-                    <button className="Schema3Button">SCHEMA 3</button>
-                    <button className="Schema4Button">SCHEMA 4</button>
-                    <button className="Schema5Button">SCHEMA 5</button>
+                    <button onClick={() => onClickHandler(1)} className="Schema1Button">SCHEMA 1</button>
+                    <button onClick={() => onClickHandler(2)} className="Schema2Button">SCHEMA 2</button>
+                    <button onClick={() => onClickHandler(3)} className="Schema3Button">SCHEMA 3</button>
+                    <button onClick={() => onClickHandler(4)} className="Schema4Button">SCHEMA 4</button>
+                    <button onClick={() => onClickHandler(5)} className="Schema5Button">SCHEMA 5</button>
                 </div>
                 <div className="SchemaDisplayCard">
                 </div>
