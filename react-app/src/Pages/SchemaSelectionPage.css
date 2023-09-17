@@ -1,34 +1,28 @@
-/* FONTS 
-@font-face {
+/* FONTS */
+/* @font-face {
   font-family: 'Gilroy-Bold';
-  src: url('/fonts/Gilroy-Bold.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+  src: url('./fonts/Gilroy-Bold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Gilroy-SemiBold';
-  src: url('/fonts/Gilroy-SemiBold.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+  src: url('./fonts/Gilroy-SemiBold.ttf') format('truetype');
 } */
 
 .SchemaSelectionTitle {
   font-family: 'Gilroy-Bold', sans-serif;
-  /* Other styles for your title */
 }
 
 .SchemaSelectionText {
   font-family: 'Gilroy-SemiBold', sans-serif;
-  /* Other styles for your text */
 }
 
 /* Container for both Header1 and SchemaSelectionCard */
 .SchemaSelectionContainer {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center horizontally */
-  justify-content: center; /* Center vertically */
+  align-items: center; 
+  justify-content: center; 
   height: 100vh;
 }
 
@@ -39,7 +33,7 @@
     border-radius: 45px;
     position: 'absolute';
     top: '400px';
-    padding: 150px; /* Add padding as needed */
+    padding: 150px; 
     padding-left: 170px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Add shadow as needed */
   }
@@ -47,19 +41,19 @@
   /* Style for the SchemaSelectionTitle */
 .SchemaSelectionTitle {
   color: 'white';
-  font-Size: 6rem;
+  font-Size: 6.5rem;
   font-Weight: 700;
-  font-family: 'Gilroy-Bold', sans-serif;
-  margin-bottom: 40px; /* Add margin as needed */
+  font-family: Gilroy-Bold, sans-serif;
+  margin-bottom: 40px; 
 }
 
 /* Style for the SchemaSelectionText */
 .SchemaSelectionText {
   font-size: 3.5rem;
   font-weight: 540;
-  font-family: 'Gilroy-SemiBold', sans-serif;
+  font-family: Gilroy-SemiBold, sans-serif;
   word-wrap: break-word;
-  margin-bottom: 90px; /* Add margin as needed */
+  margin-bottom: 90px;
 }
 
 /* Style for the coloredline */
@@ -69,10 +63,10 @@
   height: 10px;
   width: 97%;
   border-radius: 9px;
-  margin-bottom: 4%; /* Add margin as needed */
+  margin-bottom: 4%; 
 }
 
-/* Container for buttons */
+/* Container for schema buttons */
 .button-container {
   display: flex;
   justify-content: center;
@@ -92,13 +86,33 @@
   color: white;
   font-size: 3.2rem;
   font-weight: 500;
+  font-family: Gilroy-SemiBold, sans-serif;
   text-align: center; 
   display: inline-flex; /* Use inline-flex to align buttons horizontally */
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
   cursor: pointer;
   box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.7);
-  margin-right: 2%
+  margin-right: 2%;
+  transition: background 0.3s ease;
+}
+
+/* Change the background color on hover */
+.Schema1Button:hover,
+.Schema2Button:hover,
+.Schema3Button:hover,
+.Schema4Button:hover,
+.Schema5Button:hover {
+  background: #663d79; 
+}
+
+/* Change the background color when the button is clicked */
+.Schema1Button:active,
+.Schema2Button:active,
+.Schema3Button:active,
+.Schema4Button:active,
+.Schema5Button:active {
+  background: #663d79; 
 }
 
 /* Remove the right margin from the last button to prevent extra spacing */
@@ -119,15 +133,19 @@
 }
 
 .SchemaSelectButton {
-  width: 15%;
-  height: 5.5%;
-  background: #8A5A8E;
+  width: 450px; 
+  height: 150px; 
+  background: #b684ba;
   border-radius: 40px;
   color: white;
-  font-size: 3.2rem;
-  font-weight: 500;
-  text-align: center; 
+  font-size: 3.5rem;
+  font-weight: 600;
+  text-align: center;
   cursor: pointer;
   box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.7);
+  margin-top: 64%;
+  justify-content: center; 
+
 }
+
 

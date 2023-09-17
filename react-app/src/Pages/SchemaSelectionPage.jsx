@@ -1,10 +1,10 @@
-import Header1 from "../components/Header1";
+import Header2 from "../components/Header2";
 import "./SchemaSelectionPage.css";
 
 export default function SchemaSelectionPage() {
   return (
     <>
-      <Header1 />
+      <Header2 />
       <div className="SchemaSelectionContainer">
             <div className="SchemaSelectionCard">
                 <div className="SchemaSelectionTitle">Schema Selection</div>
