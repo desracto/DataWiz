@@ -1,7 +1,7 @@
 import Header2 from "../components/Header2";
 import "./SchemaSelectionPage.css";
 import httpClient from "../httpClient";
-import {useState, useEffect} from 'react';
+// import {useState, useEffect} from 'react';
 
 export default function SchemaSelectionPage() {
 
