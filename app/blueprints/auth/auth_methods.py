@@ -4,6 +4,9 @@ from datetime import datetime, timedelta
 
 @auth_bp.after_request
 def refresh_expiring_jwts(response):
+    """
+        Refreshes any token which will expire in 30 minutes
+    """
     try:
         exp_timestamp = get_jwt()["exp"]
         now = datetime.utcnow()

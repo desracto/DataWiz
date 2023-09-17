@@ -6,7 +6,7 @@ from ..main.errors import bad_request, error_response
 from ...extensions import db
 from ...models import User
 
-@user_bp.route('/users/login', methods=['POST'])
+@user_bp.route('/login/', methods=['POST'])
 def login():
     """
         Retrieves a JSON object in the form:
@@ -35,15 +35,16 @@ def login():
         return error_response(500, 'internal server error')
 
     if user and user.check_password(data['password']):
-        response = jsonify({"msg": "login successful"})
+        response = jsonify({"message": "login successful"})
         access_token = create_access_token(identity=data['username'])
         
         set_access_cookies(response, access_token)
+        response.set_cookie("id", data['username'])
         return response
     else:
         return error_response(401, 'invalid credentials')
     
-@user_bp.route('/users/', methods=['POST'])
+@user_bp.route('/', methods=['POST'])
 def register_user():
     """
         create_user function recieves a JSON request following this format:
@@ -80,10 +81,10 @@ def register_user():
     response.status_code = 201
     
     # Set location to URL for new resource
-    response.headers['Location'] = url_for('user.get_user', id=user.id)
+    response.headers['Location'] = url_for('user.get_user', username=user.username)
     return response
 
-@user_bp.route('/users/logout', methods=['POST'])
+@user_bp.route('/logout/', methods=['POST'])
 @jwt_required()
 def logout():
     """
@@ -93,21 +94,26 @@ def logout():
     """
     response = jsonify({"msg": "logout successful"})
     unset_jwt_cookies(response)
+    response.set_cookie('id', '', expires=0)
     return response
 
-@user_bp.route('/users/<id>', methods=['GET'])
+@user_bp.route('/id/<username>/', methods=['GET'])
 @jwt_required()
-def get_user(id:str):
+def get_user(username:str):
     """
         Returns requested user as JSON object if user found or
         returns 404 code if user doesn't exist. 
         
     """
-    return jsonify(User.query.get_or_404(id).to_dict())
+    user:User = User.query.filter_by(username=username).first()
+    if user:
+        return jsonify(user.to_dict())
+    else:
+        return error_response(404, "user not found")
 
-@user_bp.route('/users/<id>', methods=['PUT'])
+@user_bp.route('/id/<username>/', methods=['PUT'])
 @jwt_required()
-def update_user(id:str):
+def update_user(username:str):
     """
         update_user function recieves a response object following this format:
         {
@@ -123,7 +129,10 @@ def update_user(id:str):
         Returns updated resource representation
         Code: 200 (OK)
     """
-    user:User = User.query.get_or_404(id)
+    try:
+        user:User = User.query.filter_by(username=username).first()
+    except:
+        return error_response(500, 'internal server error')
     data = request.get_json() or {}
 
     # Checking if the new data already exists in the database
@@ -138,24 +147,28 @@ def update_user(id:str):
 
     # change user data 
     user.from_dict(data, new_user=False)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+        return error_response(500, 'internal server error')
 
     # return new user resource represnetation
-    return jsonify(user.to_dict())
+    return url_for('user.get_user', username=user.username)
 
-@user_bp.route('/users/<id>', methods=['DELETE'])
+@user_bp.route('/id/<username>/', methods=['DELETE'])
 @jwt_required()
-def delete_user(id:str):
+def delete_user(username:str):
     """
         delete_user fetches a user using their ID and 
         deletes the resource from the database
     """
-    user:User = User.query.get_or_404(id)
     try:
+        user:User = User.query.filter_by(username=username).first()
         db.session.delete(user)
+        db.session.commit()
     except:
-        db.session.delete(user)
-    db.session.commit()
+        return error_response(500, 'internal server error')
 
     response = {
         "message": "account has been successfully deleted" 

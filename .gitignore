@@ -2,6 +2,5 @@ notes.txt
 venv
 __pycache__
 .flaskenv
-test.py
 .vscode
 README.md

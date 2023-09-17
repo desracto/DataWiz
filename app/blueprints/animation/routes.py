@@ -1,6 +1,7 @@
 from app.blueprints.animation import animation_bp
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required
+from ...extensions import db
 
 from ._prefixed_models import Schema1_Employee as Employee
 from ._prefixed_models import Schema2_Product as Product, Schema2_Inventory as Inventory
@@ -11,8 +12,10 @@ from ._prefixed_models import Schema5_Album as Album, Schema5_Artist as Artist, 
 from .generator import generate_prefixed
 from ..main.errors import bad_request
 
+from .sql2ra import translate 
+from sqlparse import parse
+
 @animation_bp.route('/schema/1')
-@jwt_required()
 def schema1():
     results = {}
     employees = Employee.query.all()
@@ -25,12 +28,12 @@ def schema1():
     for emp in employees:
         emps_json.append(emp.as_dict())
     
-    return jsonify({
+    results = {
         "employees": emps_json
-    })
+    }
+    return jsonify(results=results)
 
 @animation_bp.route('/schema/2')
-@jwt_required()
 def schema2():
     products = Product.query.all()
     invens = Inventory.query.all()
@@ -55,7 +58,6 @@ def schema2():
     return jsonify(results=results)
 
 @animation_bp.route('/schema/3')
-@jwt_required()
 def schema3():
     course = Course.query.all()
     enrollments = Enrollment.query.all()
@@ -80,7 +82,6 @@ def schema3():
     return jsonify(results=results)
 
 @animation_bp.route('/schema/4')
-@jwt_required()
 def schema4():
     flights = Flight.query.all()
     passengers = Passenger.query.all()
@@ -111,7 +112,6 @@ def schema4():
     return jsonify(results=results)
 
 @animation_bp.route('/schema/5')
-@jwt_required()
 def schema5():
     albums = Album.query.all()
     genres = Genre.query.all()
@@ -147,12 +147,19 @@ def schema5():
     return jsonify(results=results)
 
 @animation_bp.route('/query', methods=['POST'])
-@jwt_required()
 def get_query():
-    data = request.get_data() or {}
+    data = request.get_json() or {}
 
-    # Checking if query in request object
+    # Check if query present
     if 'query' not in data:
-        return bad_request('must include query')
+        return bad_request("query not in request object")
+
+    # Check if query valid
+    try:
+        query = parse(data['query'])[0]
+        tree = translate(query)
+    except:
+        return bad_request("invalid query")
     
-    # Check if query is a DML
+    # Send query to animation library
+    return bad_request("route currently incomplete")

@@ -1,9 +1,7 @@
 import os
 from datetime import timedelta
-from dotenv import load_dotenv
-basedir = os.path.abspath(os.path.dirname(__file__))
 
-load_dotenv()
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     SECRET_KEY = 'f@n_|^Is"6zHto-edhd@Q+}jtYpDm$<<'

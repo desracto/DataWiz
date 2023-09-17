@@ -6,3 +6,6 @@ migrate = Migrate()
 
 from flask_jwt_extended import JWTManager
 jwt = JWTManager()
+
+from flask_cors import CORS
+cors = CORS()

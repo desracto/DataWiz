@@ -1,0 +1,29 @@
+Retrieve the first and last names of all employees.
+SELECT FirstName, LastName FROM Employee;
+
+Find the average age of employees in the 'Sales' department.
+SELECT AVG(Age) FROM Employee WHERE Dept = 'Sales';
+
+List the departments along with the count of employees in each department, but only include departments with more than 5 employees.
+SELECT Dept, COUNT(*) AS EmployeeCount
+FROM Employee
+GROUP BY Dept
+HAVING COUNT(*) > 5;
+
+Retrieve the names of employees who have the same first name as at least one other employee and are younger than the employee(s) with the same first name.
+SELECT E1.FirstName, E1.LastName
+FROM Employee AS E1
+WHERE E1.Age < ALL (
+    SELECT E2.Age
+    FROM Employee AS E2
+    WHERE E2.FirstName = E1.FirstName AND E2.ID != E1.ID
+);
+
+Find the three employees with the highest average age among their peers in the same department. If there's a tie, include all tied employees.
+SELECT E1.ID, E1.FirstName, E1.LastName, E1.Age, E1.Dept
+FROM Employee AS E1
+WHERE (
+    SELECT COUNT(*) 
+    FROM Employee AS E2 
+    WHERE E2.Dept = E1.Dept AND E2.Age >= E1.Age
+) <= 3;

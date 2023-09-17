@@ -1,6 +1,6 @@
 from flask import Flask
 from config import Config
-from .extensions import db, migrate, jwt
+from .extensions import db, migrate, jwt, cors
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -12,18 +12,19 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db, app.config["MIGRATION_DIR"])
     jwt.init_app(app)
-
+    cors.init_app(app, supports_credentials=True)
+    
     # Main blueprint
     from .blueprints.main import main_bp
     app.register_blueprint(main_bp)
 
     # Auth Blueprint
     from .blueprints.auth import auth_bp
-    app.register_blueprint(auth_bp)
+    app.register_blueprint(auth_bp, url_prefix="/api/auth/")
 
     # User Blueprint
     from .blueprints.user import user_bp
-    app.register_blueprint(user_bp, url_prefix="/api/")
+    app.register_blueprint(user_bp, url_prefix="/api/users/")
 
     # Animation Blueprint
     from .blueprints.animation import animation_bp 
