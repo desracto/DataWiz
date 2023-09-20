@@ -6,6 +6,8 @@ import radb.ast
 import radb.parse
 import sqlparse
 from sqlparse import sql
+from pyparsing import Optional
+from .select_parser import select_stmt
 
 # The equivalents of SQL condition in the "radb" library
 cond_dict = {
@@ -287,18 +289,21 @@ def __separate_tokens(sqlstring):
     relation = __get_all_relation_tokens__(relation)
     return relation, selection, projection
 
+def check_syntax(s):
+    (select_stmt + Optional(';')).parseString(s, parseAll=True)
 
 # The main method accessed from outside the library.
-def translate(sqlstring):
-    relation, selection, projection = __separate_tokens(sqlstring)
+def translate(sqlstring: str):
+    # Checks validity of sqlstring -> ParseException if error
+    check_syntax(sqlstring)
+
+    # Split query into tokens
+    parsed_sqlstring = sqlparse.parse(sqlstring)[0]
+    relation, selection, projection = __separate_tokens(parsed_sqlstring)
     
+    # Build Tree
     tree = __create_relation(relation)
     tree = __create_selection(selection, tree)
     tree = __create_projection(projection, tree)
 
     return tree.create_ra(tree.get_last_left_child())
-
-if __name__ == "__main__":
-    sql_string = sys.argv[1]
-    stmt = sqlparse.parse(sql_string)[0]
-    print(translate(stmt))

@@ -9,14 +9,14 @@ def get_uuid():
 
 class User(db.Model):
     # Table name
-    __tablename__ = 'User'
+    __tablename__ = 'Users'
 
     # Fields
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
     username = db.Column(db.String(40), unique=True)
     email = db.Column(db.String(345), unique=True)
     password_hash = db.Column(db.Text, nullable=False)
-     
+
     # Functions
     def __repr__(self):
         return "<User ID: {}>".format(self.id)
@@ -45,3 +45,4 @@ class User(db.Model):
             self.set_password(data['password'])
 
         return self
+    

@@ -24,7 +24,7 @@ def create_app(config_class=Config):
 
     # User Blueprint
     from .blueprints.user import user_bp
-    app.register_blueprint(user_bp, url_prefix="/api/users/")
+    app.register_blueprint(user_bp, url_prefix="/api/user/")
 
     # Animation Blueprint
     from .blueprints.animation import animation_bp 

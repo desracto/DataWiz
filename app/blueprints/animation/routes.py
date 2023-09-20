@@ -10,10 +10,10 @@ from ._prefixed_models import Schema4_Flight as Flight, Schema4_Passenger as Pas
 from ._prefixed_models import Schema5_Album as Album, Schema5_Artist as Artist, Schema5_Genre as Genre, Schema5_Song as Song
 
 from .generator import generate_prefixed
-from ..main.errors import bad_request
+from ..main.errors import bad_request, error_response
 
 from .sql2ra import translate 
-from sqlparse import parse
+from pyparsing import ParseException
 
 @animation_bp.route('/schema/1')
 def schema1():
@@ -146,20 +146,29 @@ def schema5():
 
     return jsonify(results=results)
 
-@animation_bp.route('/query', methods=['POST'])
+@animation_bp.route('/animate', methods=['POST'])
 def get_query():
     data = request.get_json() or {}
-
+    
     # Check if query present
     if 'query' not in data:
         return bad_request("query not in request object")
 
-    # Check if query valid
+    # Check if query valid & convert to RA
     try:
-        query = parse(data['query'])[0]
-        tree = translate(query)
+        tree = translate(data['query'])
+    except ParseException as pe:
+        # the depth variable states how far up the stacktrace it will go. depth=0
+        # only the failing input line, marker, and exception string will be shown
+        return bad_request(pe.explain(depth=0))
     except:
-        return bad_request("invalid query")
-    
+        return error_response(500, 'internal server error')
+
     # Send query to animation library
-    return bad_request("route currently incomplete")
+
+
+    # Rollback all changes
+    db.session.rollback()
+    return jsonify({
+        "result": str(tree)
+    })
