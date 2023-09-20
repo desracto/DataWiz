@@ -1,7 +1,12 @@
 from app.blueprints.animation import animation_bp
+
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required
 from ...extensions import db
+
+from ..main.errors import bad_request, error_response
+from .generator import generate_prefixed
+from .sql2ra import translate 
 
 from ._prefixed_models import Schema1_Employee as Employee
 from ._prefixed_models import Schema2_Product as Product, Schema2_Inventory as Inventory
@@ -9,10 +14,6 @@ from ._prefixed_models import Schema3_Course as Course, Schema3_Enrollment as En
 from ._prefixed_models import Schema4_Flight as Flight, Schema4_Passenger as Passenger, Schema4_Ticket as Ticket
 from ._prefixed_models import Schema5_Album as Album, Schema5_Artist as Artist, Schema5_Genre as Genre, Schema5_Song as Song
 
-from .generator import generate_prefixed
-from ..main.errors import bad_request, error_response
-
-from .sql2ra import translate 
 from pyparsing import ParseException
 
 @animation_bp.route('/schema/1')
@@ -162,7 +163,7 @@ def get_query():
         # only the failing input line, marker, and exception string will be shown
         return bad_request(pe.explain(depth=0))
     except:
-        return error_response(500, 'internal server error')
+        return error_response(500)
 
     # Send query to animation library
 
