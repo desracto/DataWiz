@@ -4,3 +4,33 @@
     justify-content: center;
     height:100vh;
 }
+
+form{
+    background-color: white;
+    padding: 30px 60px 30px 60px;
+    border-radius: 10px;
+}
+
+h1 {
+    font-size: 24px; 
+    font-weight: bold;
+  }
+  
+label{
+    font-weight: bold;
+}
+
+button{
+    width: 70%;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    background-color:#8A5A8E;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}

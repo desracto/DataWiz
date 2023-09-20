@@ -45,7 +45,7 @@ function SignUpPage() {
     {
       id: 5,
       name: "accounttype",
-      type: "checkbox",
+      type: "radio",
       options: [
         { id: "learner", label: "Learner" },
         { id: "instructor", label: "Instructor" },
@@ -55,7 +55,7 @@ function SignUpPage() {
     {
       id: 6,
       name: "gender",
-      type: "checkbox",
+      type: "radio",
       options: [
         { id: "male", label: "Male" },
         { id: "female", label: "Female" },
@@ -67,31 +67,39 @@ function SignUpPage() {
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
+
   console.log(values);
   return (
     <>
       <Header1 />
       <div className="container">
         <form className="signup_form">
+          <h2>
+            Welcome to <b>Data</b>Wiz
+          </h2>
+          <h1>Sign Up</h1>
           {inputs.map((input) => (
             <div key={input.id} className="form-input">
-              {input.type === "checkbox" ? (
-                <>
-                  <label>{input.label}</label>
-                  <br />
-                  {input.options.map((option) => (
-                    <label key={option.id}>
-                      <input
-                        type="radio"
-                        name={input.name}
-                        value={option.id}
-                        onChange={onChange}
-                        checked={values[input.name] === option.id}
-                      />
-                      {option.label}
-                    </label>
-                  ))}
-                </>
+              {input.type === "radio" ? (
+                <div className="checkbox-options">
+                  <label className="checkbox-label">{input.label}</label>
+                  <div className="radio-buttons">
+                    {input.options.map((option) => (
+                      <>
+                        <input
+                          type="radio"
+                          name={input.name}
+                          value={option.id}
+                          onChange={onChange}
+                          checked={values[input.name] === option.id}
+                        />
+                        <label key={option.id} className="radio-button-label">
+                          {option.label}
+                        </label>
+                      </>
+                    ))}
+                  </div>
+                </div>
               ) : (
                 <FormInputs
                   key={input.id}
@@ -102,6 +110,7 @@ function SignUpPage() {
               )}
             </div>
           ))}
+          <button>Sign in </button>
         </form>
       </div>
     </>

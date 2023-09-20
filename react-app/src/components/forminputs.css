@@ -7,3 +7,34 @@ input{
   margin-top: 3px;
 }
 
+input[type="radio"]{
+border: 1px solid black;
+padding:0%;
+left:0px;
+}
+
+/* Style the container for radio buttons (options) */
+.checkbox-options {
+  display: flex; /* Display radio buttons and labels in a row */
+  flex-direction: column; /* Display them in a column layout */
+}
+
+
+/* Style the container for radio buttons */
+.radio-buttons {
+  display: flex; /* Display radio buttons and labels in a row */
+  align-items: center; /* Vertically align items in the center */
+  padding: 10px;
+}
+
+/* Style each radio button label */
+.radio-button-label {
+  display: flex; /* Display radio button and label in a row */
+  align-items: center; /* Vertically align radio button and label */
+}
+
+
+
+
+
+
