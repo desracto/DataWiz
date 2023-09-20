@@ -5,8 +5,8 @@ from flask_jwt_extended import jwt_required
 from ...extensions import db
 
 from ..main.errors import bad_request, error_response
-from .generator import generate_prefixed
-from .sql2ra import translate 
+from .scripts.generator import generate_prefixed
+from .scripts.sql2ra import translate 
 
 from ._prefixed_models import Schema1_Employee as Employee
 from ._prefixed_models import Schema2_Product as Product, Schema2_Inventory as Inventory

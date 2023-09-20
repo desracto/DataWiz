@@ -1,5 +1,5 @@
 from app import app, db, create_app
-from app.blueprints.animation.generator import generate_prefixed, retrieve_schema
+from app.blueprints.animation.scripts.generator import generate_prefixed, retrieve_schema
 
 app = create_app()
 
