@@ -32,7 +32,7 @@ export default function SchemaSelectionPage() {
                 </div>
                 <div className="SchemaSelectButton-container">
                     <button className="SchemaSelectButton">SELECT</button>
-                </div>
+                </div> 
             </div>
       </div>
     </>

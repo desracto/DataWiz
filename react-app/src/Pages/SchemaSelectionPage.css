@@ -6,7 +6,7 @@
 
 @font-face {
   font-family: 'Gilroy-SemiBold';
-  src: url('./fonts/Gilroy-SemiBold.ttf') format('truetype'); 
+  src: url('/fonts/Gilroy-SemiBold.ttf') format('truetype'); 
 } */
 
 .SchemaSelectionTitle {
@@ -17,7 +17,7 @@
   font-family: 'Gilroy-SemiBold', sans-serif;
 }
 
-/* Container for both Header1 and SchemaSelectionCard */
+/* Container for both Header2 and SchemaSelectionCard */
 .SchemaSelectionContainer {
   display: flex;
   flex-direction: column;
@@ -31,7 +31,7 @@
     height: 3100px;
     background: white;
     border-radius: 45px;
-    position: 'absolute';
+    position: relative;
     top: '400px';
     padding: 150px; 
     padding-left: 170px;
@@ -63,7 +63,7 @@
   height: 10px;
   width: 97%;
   border-radius: 9px;
-  margin-bottom: 4%; 
+  margin-bottom: 130px; 
 }
 
 /* Container for schema buttons */
@@ -122,30 +122,47 @@
 
 .SchemaDisplayCard {
   display: flex;
-  width: 70%;
+  width: 95%;
   height: 1700px;
   background: #8A5A8E;
   border-radius: 50px;
-  position: absolute;
-  top: '400px';
-  margin-top: 3.5%;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6); /* Add shadow as needed */
+  position: relative;
+  margin-top: 130px;
+  left: 50%; 
+  transform: translateX(-50%); 
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.7);
+}
+
+.SchemaSelectButton-container {
+  position: relative;
+  margin-top: 80px; 
+  height: 5.5%; 
+  width: 100%;
+  justify-content: center;
+  left: 50%;
+  display: flex;
+  transform: translateX(-50%);
 }
 
 .SchemaSelectButton {
-  width: 450px; 
-  height: 150px; 
-  background: #b684ba;
-  border-radius: 40px;
+  width: 15%;
+  height: 100%;
+  background: #663d79;
+  border-radius: 50px;
   color: white;
-  font-size: 3.5rem;
-  font-weight: 600;
+  font-size: 3.2rem;
+  font-weight: 500;
+  font-family: Gilroy-SemiBold, sans-serif;
   text-align: center;
   cursor: pointer;
   box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.7);
-  margin-top: 64%;
-  justify-content: center; 
-
+  transition: background 0.3s ease;
 }
 
+.SchemaSelectButton:hover {
+  background: #522b5e;
+}
 
+.SchemaSelectButton:active {
+  background: #522b5e;
+}
