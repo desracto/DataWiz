@@ -9,6 +9,9 @@ from sqlparse import sql
 from pyparsing import Optional
 from .select_parser import select_stmt
 
+# Types
+from sqlparse.sql import Statement, Token
+
 # The equivalents of SQL condition in the "radb" library
 cond_dict = {
     "=": 43,
@@ -158,10 +161,15 @@ def __get_all_relation_tokens__(sql_statement):
     tokens = []
     sql_statement = sql_statement[0].tokens
     for add_token in sql_statement:
+
+        # Checks if the attribute "tokens" is present within the tokens
+        # If no, its a raw token and can be added
         if not hasattr(add_token, 'tokens'):
             tokens.append(add_token)
             continue
 
+        # If the token has sub tokens, loop through those tokens
+        # and add to final array
         for i in add_token.tokens:
             tokens.append(i)
 
@@ -172,27 +180,48 @@ def __get_all_relation_tokens__(sql_statement):
 def __create_relation(tokens):
     tree, relations, is_rename = None, [], False
 
+    # Possible tokens:
+    # TABLE AS TB
+    # Table,
     for token in tokens:
         if token.is_whitespace:
             continue
 
+        # Check if table has been renamed or not
         if token.value == ",":
             is_rename = False
             continue
 
+        # Table has been renamed
         if is_rename:
+            # If the last relation was renamed
+            # This sets the last node to be a renamed node 
+            # Sets last element in relations to be a radb.ast.Rename object
             last_element = len(relations) - 1
             relations[last_element] = radb.ast.Rename(relname=None, attrnames=[token.value + ": *"],
                                                       input=relations[last_element])
+        
+        # If table hasn't been renamed (yet)
+        # append current token to the relations array
+        # set rename to True as the next token might be
+        # ',' or 'AS'
         else:
             relations.append(radb.ast.RelRef(token.value))
             is_rename = True
 
     for r in relations:
+        # If current tree hasn't been built
+        # Set current relation token as root and root type as "relation"
         if tree is None:
             tree = Tree(r, node_types_dict.__getitem__("relation"))
+        
+        # if current tree has started to build, insert new relation node
+        # If the node to be inserted is relation
+        # Insert new node cross node, "X", and set current node and new node's parent to X
         else:
             tree.insert_node(r, node_types_dict.__getitem__("relation"))
+
+            # If new node added (such as X node), sets the new parent node as root
             tree = __fix_root(tree)
 
     return tree
@@ -205,6 +234,8 @@ def __create_projection(sql_select_statement, tree):
 
     only_one_projection = True
     for token in sql_select_statement[0].tokens:
+
+        # Check if there is only one projection
         if token.value == ",":
             only_one_projection = False
             break
@@ -216,7 +247,8 @@ def __create_projection(sql_select_statement, tree):
     for token in sql_select_statement[0].tokens:
         if token.is_whitespace or token.value == ",":
             continue
-
+        
+        # Adds projection node as the new node
         tree.insert_node(token.value, node_types_dict.__getitem__("projection"))
         tree = __fix_root(tree)
 
@@ -228,34 +260,56 @@ def __create_projection(sql_select_statement, tree):
 def __create_valexprbinaryop(tokens):
     left_done, or_done = False, False
     left, right, op = None, None, None
+
+    # Loop through the comparison token
+    # left_side | operator | right_side
     for token in tokens:
         if token.is_whitespace:
             continue
-
+        
+        # If the left side of the comparison hasn't been set
         if not left_done:
+            # Set the left side to the current token
             left = radb.ast.AttrRef(rel=None, name=token.value)
             left_done = True
+        
+        # If the operator hasn't been set yet
+        # Set the operator to current token
         elif not or_done:
             op = cond_dict.__getitem__(token.value)
             or_done = True
+
+        # Last token to be set is the right side
         else:
             right = radb.ast.RANumber(token.value)
-            break
 
+            # Loop no longer needed, all 3 tokens set
+            break
+    
     return radb.ast.ValExprBinaryOp(op=op, left=left, right=right)
 
 
 # Adds the sql where statement to the tree by converting them to the ra selection.
 def __create_selection(sql_where_statement, tree):
+
+    # If no selection tokens, return tree
     if sql_where_statement.__len__() == 0:
         return tree
 
+    # Loop through WHERE token (tokens within a token)
     for token in sql_where_statement[0].tokens:
         if token.is_whitespace or token.normalized == "WHERE":
             continue
-
+        
+        # if the current token is a comparison token
+        # Example: EMP.ID=1 -> Comparison
         if type(token) is sql.Comparison:
+            # Create new node
             cond = __create_valexprbinaryop(token.tokens)
+            # Insert new node
+            # Creates a new Tree object with new node
+            # Sets the current tree's parent to new node
+            # Sets the new tree's left to current tree
             tree.insert_node(cond, node_types_dict.__getitem__("selection"))
             tree = __fix_root(tree)
 
@@ -263,7 +317,7 @@ def __create_selection(sql_where_statement, tree):
 
 
 # The tokens returned from the sql parser are separated into the relevant statements.
-def __separate_tokens(sqlstring):
+def __separate_tokens(sqlstring: Statement):
     in_from = False
     relation, projection, selection = [], [], []
 
@@ -272,21 +326,32 @@ def __separate_tokens(sqlstring):
             continue
 
         if token.is_keyword:
+            # Checking if loop has passed the projection part of the query
             if token.value.lower() == 'from':
                 in_from = True
             continue
-
+        
+        # If the query still hasn't passed the projection part of the query
+        # Add to projection array
         if not in_from:
             projection.append(token)
             continue
 
+        # If token is part of the where clause (SQLPARSE groups the where token as one)
+        # Add to selection branch
         if token.is_group and token.value[:5].lower() == 'where':
             selection.append(token)
             continue
 
+        # All other tokens filtered out, all that's left is relation tokens
+        # basically the tables
         relation.append(token)
 
+    # Relation tokens can contain either tables or sub-queries
+    # This breaks it down
     relation = __get_all_relation_tokens__(relation)
+
+    # Returns the inital statement broken down into respective tokens
     return relation, selection, projection
 
 def check_syntax(s):
@@ -294,16 +359,50 @@ def check_syntax(s):
 
 # The main method accessed from outside the library.
 def translate(sqlstring: str):
+    """
+        Checks the validity of the query syntax. Raises pyparsing.ParseException error
+        if invalid syntax.
+
+        Then converts it into tokens which are further categorized into:
+            relation
+            selection
+            projection
+        
+        Returns sql2ra.Tree object
+    """
     # Checks validity of sqlstring -> ParseException if error
     check_syntax(sqlstring)
 
     # Split query into tokens
-    parsed_sqlstring = sqlparse.parse(sqlstring)[0]
+    parsed_sqlstring: Statement = sqlparse.parse(sqlstring)[0]
     relation, selection, projection = __separate_tokens(parsed_sqlstring)
     
     # Build Tree
-    tree = __create_relation(relation)
-    tree = __create_selection(selection, tree)
-    tree = __create_projection(projection, tree)
+    tree:Tree = __create_relation(relation)
+    tree:Tree = __create_selection(selection, tree)
+    tree:Tree = __create_projection(projection, tree)
+
+    # By the end of these three functions:
+    # The tree structure will be:
+
+    #       Projection
+    #           |
+    #           |
+    #       Selection
+    #           |
+    #           |
+    #        Relation
+
+    # Obviously each level can be different as nodes are added such as:
+    # Relation:
+
+    #                X
+    #               /  \
+    #              /    \
+    #             /      \
+    #             X     Table 3
+    #            / \
+    #           /   \
+    #      Table 1  Table 2
 
     return tree.create_ra(tree.get_last_left_child())
