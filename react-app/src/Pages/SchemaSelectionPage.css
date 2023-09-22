@@ -123,6 +123,7 @@
 .SchemaDisplayCard {
   display: flex;
   width: 95%;
+  max-width: 95%;
   height: 1700px;
   max-height: 1700px; 
   background: #8A5A8E;
@@ -132,7 +133,11 @@
   left: 50%; 
   transform: translateX(-50%); 
   box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.7);
-  overflow: auto; /* Allow scrolling if content exceeds max-height */
+  overflow: auto; /* Enable both horizontal and vertical scrolling when content exceeds the max width or height */
+}
+
+.SchemaDisplayCardContent {
+  padding: 20px; /* Add padding to separate content from edges */
 }
 
 .SchemaSelectButton-container {
@@ -144,10 +149,6 @@
   left: 50%;
   display: flex;
   transform: translateX(-50%);
-}
-
-.SchemaDisplayCardContent {
-  padding: 20px; /* Add padding to separate content from edges */
 }
 
 .SchemaSelectButton {
