@@ -1,13 +1,16 @@
+import React, { useState, useEffect} from 'react';
 import Header2 from "../components/Header2";
 import "./SchemaSelectionPage.css";
 import httpClient from "../httpClient";
-// import {useState, useEffect} from 'react';
+import SchemaTable from '../components/SchemaTable'; 
+
 
 export default function SchemaSelectionPage() {
+  const [selectedSchema, setSelectedSchema] = useState(null); {/* This state will hold the data for the selected schema to be displayed. */}
 
   const onClickHandler = async (id) => {
     const data = (await httpClient.get("http://localhost:5000/api/animation/schema/" + id)).data.results;
-
+    setSelectedSchema(data);
     console.log(data)
   }
   
@@ -29,6 +32,11 @@ export default function SchemaSelectionPage() {
                     <button onClick={() => onClickHandler(5)} className="Schema5Button">SCHEMA 5</button>
                 </div>
                 <div className="SchemaDisplayCard">
+                  <div className="SchemaDisplayCardContent">
+                    {selectedSchema && (
+                      <SchemaTable schemaData={selectedSchema} />
+                    )}
+                  </div>
                 </div>
                 <div className="SchemaSelectButton-container">
                     <button className="SchemaSelectButton">SELECT</button>
