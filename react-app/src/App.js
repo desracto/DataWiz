@@ -19,7 +19,7 @@ function App() {
           <Route path="/SchemaSelectionPage" element={<SchemaSelectionPage />} /> 
           <Route path="/LogIn" element={<LogInPage/>} />
           <Route path="/SignUp" element={<SignUpPage/>} />
-          <Route path="/Quiz/Filters/" element={<QuizFilters/>} />
+          <Route path="/QuizFilters/" element={<QuizFilters/>} />
           <Route path="*" element={<NotFound />} /> {/*Anything other than what is already defined*/}
         </Routes>
       </BrowserRouter>

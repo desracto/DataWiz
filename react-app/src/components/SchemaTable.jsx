@@ -1,61 +1,45 @@
 import React from 'react';
 import { useTable } from 'react-table';
+import './SchemaTable.css';
 
 const SchemaTable = ({ schemaData }) => {
-    const columns = React.useMemo(() => {
-        if (!schemaData || schemaData.length === 0) return []; /* If schemaData is empty or null, an empty array is returned */
-        const sampleRow = schemaData[0];
-        return Object.keys(sampleRow).map(key => ({
-          Header: key,
-          accessor: key,
-        }));
-      }, [schemaData]);
-    
-      const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-      } = useTable({
-        columns,
-        data: schemaData,
-      });
-    
-      return (
+  console.log('schemaData:', schemaData);
+
+  return (
+    <div className="table-container">
+      {schemaData ? (
         <div>
-          <table {...getTableProps()} className="table">
-            {/* Table Header */}
-            <thead>
-              {headerGroups.map(headerGroup => (
-                <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
-                  {headerGroup.headers.map(column => (
-                    <th {...column.getHeaderProps()} key={column.id}>
-                      {column.render('Header')}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-    
-            {/* Table Body */}
-            <tbody {...getTableBodyProps()}>
-              {rows.map(row => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()} key={row.id}>
-                    {row.cells.map(cell => (
-                      <td {...cell.getCellProps()} key={cell.column.id}>
-                        {cell.render('Cell')}
-                      </td>
+          {schemaData.map((tableData, index) => (
+            <div key={index} className="table-wrapper"> {/* Add the class here */}
+              <h3>Table {index + 1}</h3>
+              <table className="table">
+                {/* Table Header */}
+                <thead>
+                  <tr>
+                    {Object.keys(tableData[0]).map((header, idx) => (
+                      <th key={idx}>{header}</th>
                     ))}
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                </thead>
+                {/* Table Body */}
+                <tbody>
+                  {tableData.map((row, idx) => (
+                    <tr key={idx}>
+                      {Object.values(row).map((cell, cellIdx) => (
+                        <td key={cellIdx}>{cell}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
-      );
-    };
-    
+      ) : (
+        <div>No schema data available.</div>
+      )}
+    </div>
+  );
+};
+
 export default SchemaTable;
