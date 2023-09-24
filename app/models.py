@@ -62,6 +62,7 @@ class Quiz(db.Model):
 
     # Relationships
     user = db.relationship('Users', back_populates='quizzes')
+    questions = db.relationship('Quiz_QA', back_populates='quiz')
 
     # Functions
     def __repr__(self):
@@ -75,3 +76,19 @@ class Quiz(db.Model):
         """
         return datetime.datetime.strftime(self.Quiz_Time, "%d/%m/%Y, %H:%M:%S")
   
+class Quiz_QA(db.Model):
+    # Table name
+    __tablename__ = 'Quiz_QA'
+
+    # Fields
+    qaid = db.Column(db.String(32), primary_key=True, unique=True) # PK
+    question = db.Column(db.String(400))
+    answer = db.Column(db.String(1000))
+    quiz_id = db.Column(db.String(32), db.ForeignKey('Quiz.id')) # Fk
+
+    # Relationships
+    quiz = db.relationship('Quiz', back_populates='questions')
+
+    # Functions
+    def __repr__(self):
+        return "<Quiz_QA | ID: {}, Quiz ID: {}>".format(self.qaid, self.quiz_id)
