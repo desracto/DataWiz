@@ -1,5 +1,6 @@
 from uuid import uuid4
 from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
 
 from .extensions import db
 from .blueprints.animation import _prefixed_models
@@ -7,7 +8,7 @@ from .blueprints.animation import _prefixed_models
 def get_uuid():
     return uuid4().hex
 
-class User(db.Model):
+class Users(db.Model):
     # Table name
     __tablename__ = 'Users'
 
@@ -16,6 +17,9 @@ class User(db.Model):
     username = db.Column(db.String(40), unique=True)
     email = db.Column(db.String(345), unique=True)
     password_hash = db.Column(db.Text, nullable=False)
+
+    # Relationships
+    quizzes = db.relationship('Quiz', back_populates='user')
 
     # Functions
     def __repr__(self):
@@ -46,3 +50,28 @@ class User(db.Model):
 
         return self
     
+class Quiz(db.Model):
+    # Table name
+    __tablename__ = 'Quiz'
+
+    # Fields
+    id = db.Column(db.String(32), primary_key=True, unique=True) # PK
+    name = db.Column(db.String(120))
+    start_time = db.Column(db.DateTime)
+    userid = db.Column(db.String(40), db.ForeignKey('Users.id')) # FK
+
+    # Relationships
+    user = db.relationship('Users', back_populates='quizzes')
+
+    # Functions
+    def __repr__(self):
+        return "<Quiz ID: {}>".format(self.id)
+
+    def get_time(self):
+        """
+            Doesn't matter how the datetime is inserted into the database, 
+            it will always send it out in the following format:
+                %d/%m/%Y, %H:%M:%S -> d/m/YYYY
+        """
+        return datetime.datetime.strftime(self.Quiz_Time, "%d/%m/%Y, %H:%M:%S")
+  

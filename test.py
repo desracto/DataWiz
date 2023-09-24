@@ -1,10 +1,11 @@
-from app.blueprints.animation.sql2ra import *
-import sqlparse
-from pyparsing import ParseException
+from app.blueprints.animation.scripts.sql2ra import translate
+from sqlparse import parse
 
-if __name__ == "__main__":
-    try:
-        print(translate("SEEEE"))
-    except ParseException as pe:
-        print(pe.explain())
-    
+def main():
+    query = "SELECT EMP.ID, EMP.NAME FROM EMPLOYEES AS EMP WHERE EMP.ID=1"
+    print(parse(query)[0][8][2][2])
+
+
+
+if __name__ == '__main__':
+    main()

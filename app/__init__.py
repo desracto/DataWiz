@@ -30,6 +30,10 @@ def create_app(config_class=Config):
     from .blueprints.animation import animation_bp 
     app.register_blueprint(animation_bp, url_prefix="/api/animation/")
 
+    # Quiz Blueprint
+    from .blueprints.quiz import quiz_bp
+    app.register_blueprint(quiz_bp, url_prefix="/api/quiz/")
+
     return app
 
 from app import models

@@ -165,11 +165,21 @@ def get_query():
     except:
         return error_response(500)
 
+    # Extract tables
+    TABLE_NAMES = ['EMPLOYEE', 
+     'PRODUCT', 'INVENTORY', 
+     'COURSE', 'ENROLLMENT', 
+     'FLIGHT', 'PASSENGER', 'TICKET',
+     'ALBUM', 'ARTIST', 'GENRE', 'SONG']
+
+    if TABLE_NAMES in tree:
+        result = {
+            "msg": "hello"
+        }
+
     # Send query to animation library
 
 
     # Rollback all changes
     db.session.rollback()
-    return jsonify({
-        "result": str(tree)
-    })
+    return jsonify(result)
