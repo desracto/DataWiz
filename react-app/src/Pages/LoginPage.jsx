@@ -1,4 +1,3 @@
-import Header1 from "../components/Header1";
 import React, {useState} from 'react';
 import httpClient from "../httpClient";
 
@@ -28,7 +27,6 @@ function LogInPage()
 
     return (
         <>
-            <Header1 />
             <form>
                 <div>
                     <label>Username: </label>

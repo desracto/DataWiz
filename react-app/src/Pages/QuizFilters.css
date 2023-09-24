@@ -128,7 +128,7 @@
 }
 
 input:checked + .slider {
-    background-color: rgb(188, 89, 238);
+    background-color: rgb(146, 207, 138);
 }
 
 

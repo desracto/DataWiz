@@ -1,13 +1,12 @@
-/* FONTS */
-/* @font-face {
+@font-face {
   font-family: 'Gilroy-Bold';
-  src: url('./fonts/Gilroy-Bold.ttf') format('truetype');
+  src: url('../fonts/Gilroy-Bold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Gilroy-SemiBold';
-  src: url('/fonts/Gilroy-SemiBold.ttf') format('truetype'); 
-} */
+  src: url('../fonts/Gilroy-SemiBold.ttf') format('truetype'); 
+}
 
 .SchemaSelectionTitle {
   font-family: 'Gilroy-Bold', sans-serif;
