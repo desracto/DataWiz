@@ -18,7 +18,7 @@ def set_cookies(response: Response, data: dict, access_tokens):
     # JWT Tokens
     set_access_cookies(response, access_tokens)
     
-    # ID
+    # Username
     response.set_cookie(
         'id',
         value=data['username']

@@ -147,7 +147,7 @@ def schema5():
 
     return jsonify(results=results)
 
-@animation_bp.route('/animate', methods=['POST'])
+@animation_bp.route('/animate/', methods=['POST'])
 def get_query():
     data = request.get_json() or {}
     

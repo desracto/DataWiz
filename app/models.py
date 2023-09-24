@@ -50,12 +50,15 @@ class Users(db.Model):
 
         return self
     
+    def find_quiz(self, quiz_id):
+        
+    
 class Quiz(db.Model):
     # Table name
     __tablename__ = 'Quiz'
 
     # Fields
-    id = db.Column(db.String(32), primary_key=True, unique=True) # PK
+    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid) # PK
     name = db.Column(db.String(120))
     start_time = db.Column(db.DateTime)
     userid = db.Column(db.String(40), db.ForeignKey('Users.id')) # FK
@@ -66,7 +69,7 @@ class Quiz(db.Model):
 
     # Functions
     def __repr__(self):
-        return "<Quiz ID: {}>".format(self.id)
+        return "<Quiz ID: {}>".format(self.id)        
 
     def get_time(self):
         """
@@ -74,8 +77,19 @@ class Quiz(db.Model):
             it will always send it out in the following format:
                 %d/%m/%Y, %H:%M:%S -> d/m/YYYY
         """
-        return datetime.datetime.strftime(self.Quiz_Time, "%d/%m/%Y, %H:%M:%S")
-  
+        return datetime.datetime.strftime(self.start_time, "%d/%m/%Y, %H:%M:%S")
+    
+    def to_dict(self):
+        data = {
+            "id": self.id,
+            "quiz_name": self.name,
+            "start_time": self.get_time(),
+            "userid": self.user,
+            "questions": self.questions
+        }
+
+        return data
+            
 class Quiz_QA(db.Model):
     # Table name
     __tablename__ = 'Quiz_QA'
