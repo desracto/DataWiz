@@ -1,40 +1,41 @@
-input{
-  width: 400px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.FormInputs {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+
+input[type=radio] {
+  margin-right: 0px;
+}
+
+input {
+  padding: 15px;
+  border: 1px solid grey;
+  border-radius: 10px;
   resize: vertical;
-  margin-top: 3px;
+  margin: 10px 10px 0px 0px;
+
 }
 
-input[type="radio"]{
-border: 1px solid black;
-padding:0%;
-left:0px;
+input:focus {
+  outline: none; /* Remove the default focus outline */
+  border: 1px solid black; /* Add your custom border style/color */
+  cursor: text; /* Set a text cursor */
 }
 
-/* Style the container for radio buttons (options) */
-.checkbox-options {
-  display: flex; /* Display radio buttons and labels in a row */
-  flex-direction: column; /* Display them in a column layout */
+input:invalid[focused = "true"] {
+  border: 1px solid red;
 }
 
+input:invalid[focused = "true"] ~ span{
+  display: block;
+}
 
 /* Style the container for radio buttons */
 .radio-buttons {
-  display: flex; /* Display radio buttons and labels in a row */
-  align-items: center; /* Vertically align items in the center */
+  display: flex;
+  align-items: center;
   padding: 10px;
+
 }
-
-/* Style each radio button label */
-.radio-button-label {
-  display: flex; /* Display radio button and label in a row */
-  align-items: center; /* Vertically align radio button and label */
-}
-
-
-
-
-
 

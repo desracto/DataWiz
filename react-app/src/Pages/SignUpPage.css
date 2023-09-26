@@ -1,36 +1,54 @@
-.container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height:100vh;
-}
-
-form{
+.signup_form {
     background-color: white;
-    padding: 30px 60px 30px 60px;
-    border-radius: 10px;
+    padding: 70px 100px 70px 100px;
+    border-radius: 50px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -40%) scale(2.5);
 }
 
 h1 {
-    font-size: 24px; 
-    font-weight: bold;
-  }
-  
-label{
+    font-size: 30px;
     font-weight: bold;
 }
 
-button{
-    width: 70%;
+h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.radio-button-label {
+    margin-right: 50px;
+    margin-left: 10px;
+    margin-top: 0px;
+}
+
+
+button {
+    width: 100%;
     height: 50px;
     padding: 10px;
     border: none;
-    background-color:#8A5A8E;
+    background-color: #8A5A8E;
     color: white;
-    border-radius: 5px;
+    border-radius: 10px;
     font-weight: bold;
     font-size: 15px;
     cursor: pointer;
     margin-top: 15px;
     margin-bottom: 30px;
+}
+
+.ErrorMessage {
+    font-size: 15px;
+    padding: 3px;
+    color: red;
+    display: none;
 }

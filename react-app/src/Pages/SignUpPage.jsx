@@ -19,28 +19,45 @@ function SignUpPage() {
       name: "fullname",
       type: "text",
       placeholder: "Full Name",
+      errorMessage:
+        "Full name must contain only letters and spaces. It should start with a letter and may include spaces for multiple names (e.g., first name, middle name). Special characters, numbers, or punctuation are not allowed.",
       label: "Full Name",
+      pattern: "^[A-Za-z]+(?: [A-Za-z]+)*$",
+      required: true,
     },
     {
       id: 2,
       name: "username",
       type: "text",
       placeholder: "username",
+      errorMessage:
+        "Username must be between 6 and 20 characters ,include at least one uppercase letter,I one numeric digit, one special character (underscore or hyphen).",
       label: "Username",
+      pattern: "^(?=.*[A-Z])(?=.*\d)(?=.*[-_])[A-Za-z\d-_]{6,20}$",
+      required: true,
     },
     {
       id: 3,
       name: "email",
-      type: "text",
+      type: "email",
       placeholder: "username@gmail.com",
+      errorMessage:
+        "Please enter a valid email address. For example: username@gmail.com",
       label: "Email",
+      pattern: "^(?i)[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$",
+      required: true,
     },
     {
       id: 4,
       name: "password",
-      type: "text",
+      type: "password",
       placeholder: "Password",
+      errorMessage:
+        "Password must be between 8 and 64 characters in length and contain at least one special character (!@#$%^&*()_+{}[]:;<>,.?~/|).",
       label: "Password",
+      pattern:
+        "^(?=.*[!@#$%^&*()_+{}[]:;<>,.?~\\/|])[A-Za-zd!@#$%^&*()_+{}[]:;<>,.?~\\/|]{8,64}$",
+      required: true,
     },
     {
       id: 5,
@@ -72,7 +89,6 @@ function SignUpPage() {
   return (
     <>
       <Header1 />
-      <div className="container">
         <form className="signup_form">
           <h2>
             Welcome to <b>Data</b>Wiz
@@ -112,7 +128,6 @@ function SignUpPage() {
           ))}
           <button>Sign in </button>
         </form>
-      </div>
     </>
   );
 }
